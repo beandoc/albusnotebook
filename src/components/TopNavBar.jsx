@@ -1,8 +1,6 @@
 import React from 'react';
 import { 
-  FileText, Layout, Plus, X, Search, RefreshCw, Home, 
-  MessageSquare, Folder, Undo2, Music, Download, Moon, 
-  Settings, UserCircle, ChevronDown 
+  Menu, Share, FileText, Search, MoreHorizontal, Maximize2, X, RefreshCw 
 } from 'lucide-react';
 
 const TopNavBar = ({ 
@@ -18,76 +16,78 @@ const TopNavBar = ({
   zoomPercent,
   isApiKeyMissing
 }) => (
-  <div className="fixed top-0 left-0 right-0 h-12 bg-black text-white flex items-center justify-between px-4 z-[100]">
-    <div className="flex items-center gap-4 text-xs shrink-0">
-      <span className="opacity-60 text-[11px]">•</span>
-      <div className="flex items-center gap-2">
-        <span className="font-semibold text-gray-200">Nirogyam AI Board</span>
-        {sources.length > 0 && (
-          <div 
-            onClick={() => setShowSources(!showSources)}
-            className="bg-[#2a2a2a] text-[#a78bfa] px-2 py-0.5 rounded-md flex items-center gap-1.5 cursor-pointer hover:bg-[#333] transition-colors"
-          >
-            <FileText size={12} />
-            <span className="text-[10px] uppercase font-bold tracking-tighter">{sources.length} SOURCES</span>
-          </div>
-        )}
-      </div>
-      <div className="flex gap-4 ml-4 text-gray-500">
-         <Layout size={16} className="cursor-pointer hover:text-white" />
-         <Plus size={16} className="cursor-pointer hover:text-white" />
-         <X size={16} className="cursor-pointer hover:text-red-500" onClick={onClearBoard} title="Clear Board" />
+  <div className="fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-md border-b border-[#e5e5e5] text-[#111111] flex items-center justify-between px-4 z-[100] transform transition-all">
+    
+    {/* Left Side */}
+    <div className="flex items-center gap-4 text-sm shrink-0 font-medium">
+      <button className="p-1.5 text-[#555555] hover:text-[#111111] transition-colors rounded-lg hover:bg-[#f5f5f5]">
+        <Menu size={18} />
+      </button>
+      
+      <div className="flex items-center gap-3">
+        <span className="font-semibold px-2">Untitled canvas</span>
+        <button className="text-[#888888] hover:text-[#111111] transition-colors">
+          <MoreHorizontal size={16} />
+        </button>
       </div>
     </div>
 
-    {/* Global Search Bar (Persistent) */}
+    {/* Center Search (Only when not on landing page) */}
     {!showInitial && (
-      <div className="absolute left-1/2 -translate-x-1/2 top-1.5 w-[400px] z-[110] animate-fade-in">
-        <div className="bg-[#1a1a1a] border border-[#333] rounded-xl px-4 py-1.5 flex items-center gap-3 transition-all focus-within:border-[#7c3aed]/50 focus-within:bg-[#222]">
-          <Search size={14} className="text-gray-500" />
+      <div className="absolute left-1/2 -translate-x-1/2 top-2 flex items-center justify-center">
+        <div className="flex items-center gap-2 bg-[#f5f5f5] rounded-full px-4 py-1.5 border border-[#e5e5e5] hover:border-[#cccccc] transition-colors w-[380px]">
+          <Search size={14} className="text-[#888888]" />
           <input 
             type="text" 
-            placeholder="Ask Albus anything..." 
-            className="bg-transparent border-none outline-none text-[13px] text-white w-full placeholder-gray-600"
+            placeholder="Ask a question..."
+            className="bg-transparent border-none outline-none text-[13px] font-medium text-[#111111] placeholder:text-[#888888] w-full"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && onGenerate()}
+            onKeyDown={(e) => e.key === 'Enter' && onGenerate()}
           />
-           <RefreshCw 
-            size={14} 
-            className={`text-gray-500 hover:text-[#7c3aed] cursor-pointer transition-all ${isLoading ? 'animate-spin' : ''}`} 
-            onClick={() => onGenerate()}
-          />
+          {isLoading ? (
+             <RefreshCw size={14} className="text-[#111111] animate-spin" />
+          ) : (
+             <div className="w-4" />
+          )}
         </div>
       </div>
     )}
-    
-    <nav className="flex bg-[#1a1a1a] rounded-xl p-1 gap-1 shrink-0">
-      <button className="w-10 h-8 flex items-center justify-center text-gray-400 hover:text-white"><Home size={18} /></button>
-      <button className="w-10 h-8 flex items-center justify-center text-gray-400 hover:text-white"><MessageSquare size={18} /></button>
-      <button className="w-10 h-8 flex items-center justify-center bg-[#7c3aed] text-white rounded-lg px-4"><Layout size={18} /></button>
-      <button className="w-10 h-8 flex items-center justify-center text-gray-400 hover:text-white"><Folder size={18} /></button>
-    </nav>
 
-    <div className="flex items-center gap-5 text-[11px] font-medium">
-      {isApiKeyMissing && (
-        <div className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-[10px] items-center gap-1 flex">
-          <span>Demo Mode</span>
-        </div>
+    {/* Right Side */}
+    <div className="flex items-center gap-3 shrink-0">
+      {sources.length > 0 && (
+        <button 
+          onClick={() => setShowSources(!showSources)}
+          className={`flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full transition-colors ${showSources ? 'bg-[#111111] text-white' : 'bg-[#f5f5f5] text-[#555555] border border-[#e5e5e5]'}`}
+        >
+          <FileText size={12} /> {sources.length} Sources
+        </button>
       )}
-      <div className="flex gap-4 text-gray-500">
-        <Undo2 size={16} className="cursor-pointer hover:text-white" />
-        <RefreshCw size={14} className="cursor-pointer hover:text-white" />
-      </div>
-      <div className="bg-[#1a1a1a] px-3 py-1.5 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-gray-800 transition-colors">
-        <span className="text-gray-300">G2.5 Flash</span> <ChevronDown size={12} className="text-gray-500" />
-      </div>
-    <div className="flex gap-4 text-gray-400 items-center">
-        <Music size={16} /> <Download size={16} /> <Moon size={16} /> <Settings size={16} /> <UserCircle size={22} className="text-gray-300" />
-        <div className="w-[1px] h-4 bg-gray-800 mx-1"></div>
-        <span className="min-w-[40px] text-right text-gray-200 font-mono">{zoomPercent}%</span>
-        <span className="text-gray-500 cursor-pointer">+</span>
-      </div>
+
+      {isApiKeyMissing && (
+        <span className="bg-red-50 text-red-600 text-[11px] font-bold px-2 py-0.5 rounded border border-red-200">No Key</span>
+      )}
+
+      <span className="text-[12px] font-mono text-[#888888] w-12 text-center">{zoomPercent}%</span>
+      
+      <div className="h-4 w-[1px] bg-[#e5e5e5] mx-1"></div>
+      
+      <button className="p-1.5 text-[#555555] hover:text-[#111111] transition-colors rounded-lg hover:bg-[#f5f5f5]">
+        <Share size={16} />
+      </button>
+
+      <button className="p-1.5 text-[#555555] hover:text-[#111111] transition-colors rounded-lg hover:bg-[#f5f5f5]">
+        <Maximize2 size={16} />
+      </button>
+
+      <button 
+        onClick={onClearBoard} 
+        title="Clear Board"
+        className="p-1.5 text-[#555555] hover:text-red-600 transition-colors rounded-lg hover:bg-red-50 ml-1"
+      >
+        <X size={18} />
+      </button>
     </div>
   </div>
 );
