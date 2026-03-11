@@ -83,11 +83,7 @@ const TopNavBar = ({
         <span className="text-gray-300">G2.5 Flash</span> <ChevronDown size={12} className="text-gray-500" />
       </div>
     <div className="flex gap-4 text-gray-400 items-center">
-        <Music size={16} /> <Download size={16} /> <Moon size={16} /> <Settings size={16} /> 
-        <div className="flex items-center gap-2 text-gray-300">
-          <span className="font-bold text-[10px] uppercase tracking-wider">{userName}</span>
-          <UserCircle size={22} />
-        </div>
+        <Music size={16} /> <Download size={16} /> <Moon size={16} /> <Settings size={16} /> <UserCircle size={22} className="text-gray-300" />
         <div className="w-[1px] h-4 bg-gray-800 mx-1"></div>
         <span className="min-w-[40px] text-right text-gray-200 font-mono">{zoomPercent}%</span>
         <span className="text-gray-500 cursor-pointer">+</span>

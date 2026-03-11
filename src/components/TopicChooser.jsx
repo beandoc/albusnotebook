@@ -2,16 +2,16 @@ import React from 'react';
 import { RefreshCw, ArrowUpCircle, MessageSquare } from 'lucide-react';
 import { PRESET_TOPICS } from '../data/presetTopics';
 
-const TopicChooser = ({ userName, query, setQuery, onGenerate, onSelectTopic, onFileUpload, isLoading }) => (
+const TopicChooser = ({ query, setQuery, onGenerate, onSelectTopic, onFileUpload, isLoading }) => (
   <div className="absolute top-0 left-0 w-full h-full bg-[#f8f9fa] z-50 overflow-y-auto pt-24 pb-32 animate-fade-in">
     <div className="max-w-[1000px] mx-auto px-8">
       <div className="flex flex-col mb-16 text-left">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-[#7c3aed] text-white px-4 py-1.5 rounded-full text-[12px] font-bold tracking-widest uppercase">Nirogyam Care</div>
         </div>
-        <h1 className="text-[64px] font-[800] text-black leading-tight tracking-tight mb-6 truncate max-w-full">Hello {userName}.</h1>
+        <h1 className="text-[64px] font-[800] text-black leading-tight tracking-tight mb-6">Patient Education Canvas.</h1>
         <p className="text-[20px] text-gray-500 font-medium max-w-[600px] leading-relaxed">
-          Your Nirogyam medical training modules are ready. Select a topic below to begin mapping patient education paths.
+          Select a clinical module below to begin visual mapping. Our AI is grounded in the Nirogyam medical knowledge repository.
         </p>
       </div>
 

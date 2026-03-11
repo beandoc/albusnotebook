@@ -13,10 +13,21 @@ export const PRESET_TOPICS = [
     ],
     sources: [
       { 
-        id: 'ckd-guide',
-        name: 'CKD Roadmap.txt', 
-        content: 'Chronic Kidney Disease (CKD) is a progressive condition where kidneys lose function over time. The Roadmap involves: 1. Diagnosis via eGFR and Urine Albumin. 2. Staging (1-5). 3. Management (BP control, Diet, Medication). 4. Preparation for future treatments if needed. Early detection is key to slowing progression.',
-        size: '1.5 KB'
+        id: 'ckd-explained',
+        name: 'source_nirogyams_ckd.txt', 
+        content: `Chronic Kidney Disease (CKD) is a condition where kidneys lose function over time. 
+        Diagnosis involves: 
+        1. eGFR (Estimated Glomerular Filtration Rate): Measures how well kidneys filter waste. 
+        2. Urine Albumin/Protein: Checks for kidney damage.
+        Stages:
+        - Stage 1: High function, GFR > 90.
+        - Stage 2: Mild loss, GFR 60-89.
+        - Stage 3: Moderate loss, GFR 30-59.
+        - Stage 4: Severe loss, GFR 15-29.
+        - Stage 5: Kidney failure, GFR < 15.
+        Slowing Progression:
+        - Hitting the brakes involves blood pressure control, managing diabetes, and avoiding kidney-toxic habits over-the-counter pain medications.`,
+        size: '1.8 KB'
       }
     ]
   },
@@ -30,14 +41,19 @@ export const PRESET_TOPICS = [
     suggestedQueries: [
       'High vs Low Potassium foods',
       'The danger of High Phosphorus',
-      'Protein intake guidelines for CKD'
+      'Is a high-protein diet safe?'
     ],
     sources: [
       { 
-        id: 'nutrition-guide',
-        name: 'Renal Nutrition.txt', 
-        content: 'Renal nutrition focuses on: 1. Sodium reduction (<2g/day) to control BP. 2. Potassium management (staying below 2-3g if eGFR is low). 3. Phosphorus control (avoiding processed foods and additives). 4. Protein balance (higher in dialysis, lower in pre-dialysis CKD).',
-        size: '2.8 KB'
+        id: 'nutrition-deep-dive',
+        name: 'source_nirogyams_nutrition.txt', 
+        content: `Renal nutrition is a key pillar of kidney health.
+        1. Sodium Management: Limit to <2g daily to protect heart and BP.
+        2. High vs Low Potassium: High potassium (bananas, potatoes, tomatoes) can be dangerous if kidneys can't clear it.
+        3. Phosphorus: Hidden danger in processed foods and additives. High levels weaken bones and damage blood vessels.
+        4. Protein: High-protein diets (like excessive paneer or protein powders) can stress already damaged kidneys. Pre-dialysis patients often need limited protein, whereas dialysis patients need more.
+        5. Thali Health: Focusing on balanced, low-sodium traditional meals.`,
+        size: '3.1 KB'
       }
     ]
   },
@@ -50,57 +66,97 @@ export const PRESET_TOPICS = [
     initialQuery: 'Compare Dialysis and Kidney Transplantation.',
     suggestedQueries: [
       'Benefits of Kidney Transplant',
-      'Life on Hemodialysis',
-      'Which option is better for long-term health?'
+      'Hemodialysis vs Peritoneal Dialysis',
+      'Quality of life comparison'
     ],
     sources: [
       { 
-        id: 'treatment-paths',
-        name: 'Treatment Paths.txt', 
-        content: 'Dialysis (Hemo or Peritoneal) acts as an artificial filter when kidneys fail. Transplantation is a surgical procedure to place a healthy kidney. Transplantation generally offers better quality of life and longer life expectancy but requires lifelong immunosuppressants and a donor.',
-        size: '2.2 KB'
+        id: 'treatment-guide',
+        name: 'source_nirogyams_treatments.txt', 
+        content: `Treatment options for kidney failure:
+        1. Hemodialysis: Uses a machine to filter blood (usually 3 times a week at a center).
+        2. Peritoneal Dialysis: Uses the abdomen lining to filter blood at home.
+        3. Transplantation: Surgical placement of a healthy kidney from a living or deceased donor.
+        Comparison:
+        - Transplant generally offers better long-term survival and quality of life.
+        - Dialysis is a life-sustaining bridge.
+        - Choice involves emotional, daily life, and medical considerations.`,
+        size: '2.5 KB'
       }
     ]
   },
   {
     id: 'hypertension-kidney',
     title: '📉 High BP & Your Kidneys',
-    description: 'Understand how high blood pressure acts as a silent killer for your kidneys.',
+    description: 'How high blood pressure silently damages kidney filtration.',
     icon: '📉',
     color: 'yellow',
-    initialQuery: 'How does high blood pressure damage kidneys?',
+    initialQuery: 'The link between Hypertension and Kidney Disease.',
     suggestedQueries: [
-      'What is the ideal BP for kidney patients?',
-      'Silent symptoms of high BP',
-      'Heart-Kidney connection'
+      'Ideal BP targets for kidney health',
+      'Silent symptoms of hypertension',
+      'How BP damage nephrons'
     ],
     sources: [
       { 
-        id: 'bp-kidney',
-        name: 'Hypertension Guide.txt', 
-        content: 'Hypertension is the #2 cause of kidney failure. High pressure damages the small blood vessels in the kidneys (nephrons), making them unable to filter waste. This creates a vicious cycle where kidney damage further increases blood pressure.',
+        id: 'bp-connection',
+        name: 'source_nirogyams_bp.txt', 
+        content: `Hypertension (High BP) is both a cause and a result of kidney disease.
+        - It is the #2 cause of kidney failure globally.
+        - High pressure damages the nephrons (filtering units), causing leakage of protein.
+        - Yearly check-ups are vital because high BP is a silent worker that destroys kidneys without symptoms.
+        - Managing weight and salt intake helps tackle this 'twin threat'.`,
         size: '1.9 KB'
       }
     ]
   },
   {
-    id: 'adpkd-roadmap',
-    title: '🧬 ADPKD Road Map',
-    description: 'Navigating Autosomal Dominant Polycystic Kidney Disease.',
+    id: 'adpkd-pkd',
+    title: '🧬 ADPKD & Genetics',
+    description: 'Navigating inherited kidney diseases and cyst management.',
     icon: '🧬',
     color: 'teal',
-    initialQuery: 'Overview of ADPKD management.',
+    initialQuery: 'Explain ADPKD and its management.',
     suggestedQueries: [
-      'Genetic testing for PKD',
-      'Tolvaptan and other treatments',
-      'Managing PKD symptoms'
+      'ADPKD Roadmap',
+      'Tolvaptan treatment benefits',
+      'Genetic screening for families'
     ],
     sources: [
       { 
-        id: 'pkd-guide',
-        name: 'ADPKD Roadmap.txt', 
-        content: 'ADPKD is a genetic condition where fluid-filled cysts grow in the kidneys. Management includes monitoring cyst growth (TKV), blood pressure control, high water intake (for some), and specific medications like Tolvaptan to slow cyst expansion.',
-        size: '2.1 KB'
+        id: 'pkd-knowledge',
+        name: 'source_nirogyams_pkd.txt', 
+        content: `Autosomal Dominant Polycystic Kidney Disease (ADPKD):
+        - A genetic condition causing fluid-filled cysts in kidneys.
+        - Management involves monitoring Total Kidney Volume (TKV).
+        - Tolvaptan is a medication used to slow cyst growth and preserve function.
+        - Family history and early screening (Kidney Ultrasound/MRI) are crucial.`,
+        size: '2.2 KB'
+      }
+    ]
+  },
+  {
+    id: 'kidney-tests',
+    title: '📋 Lab Tests Explained',
+    description: 'Understanding Creatinine, eGFR, and Urine Protein.',
+    icon: '📋',
+    color: 'yellow',
+    initialQuery: 'What do my Kidney Function Test (KFT) numbers mean?',
+    suggestedQueries: [
+      'What is Creatinine?',
+      'Why is Urine Protein significant?',
+      'Interpreting eGFR results'
+    ],
+    sources: [
+      { 
+        id: 'test-guide',
+        name: 'source_nirogyams_tests.txt', 
+        content: `Your Kidney Health Report Card (KFT):
+        1. Creatinine: A waste product from muscles; high levels indicate poor filtration.
+        2. eGFR: The most important number; estimated filtration percentage (e.g., eGFR 60 = 60% function).
+        3. Hematuria (Seeing Red): Blood in urine can indicate stones, infection, or kidney disease.
+        4. Urine Protein: Leaking protein indicates damage to the kidney's filters.`,
+        size: '2.4 KB'
       }
     ]
   }

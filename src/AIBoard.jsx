@@ -8,7 +8,6 @@ import SuggestionPanel from './components/SuggestionPanel';
 import SourcesSidebar from './components/SourcesSidebar';
 import TopicChooser from './components/TopicChooser';
 import Minimap from './components/Minimap';
-import Login from './components/Login';
 
 // Hooks
 import { useCanvas } from './hooks/useCanvas';
@@ -22,7 +21,6 @@ const AIBoard = () => {
   const [query, setQuery] = useState('');
   const [showInitial, setShowInitial] = useState(true);
   const [activeSuggestionsNode, setActiveSuggestionsNode] = useState(null);
-  const [user, setUser] = useState(localStorage.getItem('nirogyam-user') || null);
 
   const fileInputRef = useRef(null);
 
@@ -98,13 +96,6 @@ const AIBoard = () => {
       clearPersistence();
     }
   };
-
-  if (!user) {
-    return <Login onLogin={(name) => {
-      setUser(name);
-      localStorage.setItem('nirogyam-user', name);
-    }} />;
-  }
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-white canvas-grid select-none font-sans">
@@ -201,7 +192,6 @@ const AIBoard = () => {
 
       {showInitial && (
         <TopicChooser 
-          userName={user}
           query={query}
           setQuery={setQuery}
           onGenerate={handleGenerate}
