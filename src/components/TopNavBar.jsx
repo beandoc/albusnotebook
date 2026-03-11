@@ -1,16 +1,8 @@
 import React from 'react';
 import { 
-  Plus, 
-  Search, 
-  MessageCircle, 
-  Share2, 
-  Settings, 
-  UserCircle, 
-  ChevronDown, 
-  Download,
-  Music,
-  Moon,
-  Database
+  FileText, Layout, Plus, X, Search, RefreshCw, Home, 
+  MessageSquare, Folder, Undo2, Music, Download, Moon, 
+  Settings, UserCircle, ChevronDown 
 } from 'lucide-react';
 
 const TopNavBar = ({ 
@@ -24,88 +16,80 @@ const TopNavBar = ({
   isLoading, 
   onClearBoard,
   zoomPercent,
-  isApiKeyMissing 
-}) => {
-  return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-[1400px] h-[72px] z-[2000] flex items-center justify-between px-6 glass-panel rounded-[24px] premium-shadow animate-fade-in">
-      
-      {/* Brand Section */}
-      <div className="flex items-center gap-4 min-w-[200px]">
-        <div className="w-10 h-10 bg-[#0f172a] rounded-xl flex items-center justify-center text-white font-black text-xl">
-          N
-        </div>
-        <div className="flex flex-col">
-          <h1 className="text-[15px] font-bold text-slate-900 tracking-tight leading-none mb-1">Nirogyam AI</h1>
-          <span className="text-[11px] text-slate-400 font-bold uppercase tracking-[0.05em]">Medical Board</span>
-        </div>
-      </div>
-
-      {/* Center Search (Only show if not initial) */}
-      {!showInitial && (
-        <div className="flex-1 max-w-xl mx-8">
-          <div className="relative flex items-center bg-slate-100/50 rounded-2xl p-1 px-4 border border-slate-200/50 group transition-all focus-within:bg-white focus-within:border-violet-600 focus-within:shadow-lg focus-within:shadow-violet-600/5">
-            <Search size={18} className="text-slate-400" />
-            <input 
-              type="text" 
-              placeholder="Ask a question..."
-              className="w-full bg-transparent px-3 py-2 text-sm font-medium outline-none text-slate-800"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && onGenerate()}
-            />
-            {isLoading && (
-              <div className="w-4 h-4 border-2 border-violet-600 border-t-transparent rounded-full animate-spin ml-2"></div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Tools Section */}
+  isApiKeyMissing
+}) => (
+  <div className="fixed top-0 left-0 right-0 h-12 bg-black text-white flex items-center justify-between px-4 z-[100]">
+    <div className="flex items-center gap-4 text-xs shrink-0">
+      <span className="opacity-60 text-[11px]">•</span>
       <div className="flex items-center gap-2">
-        <button 
-          onClick={() => setShowSources(!showSources)}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
-            showSources ? 'bg-violet-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-          }`}
-        >
-          <Database size={16} />
-          Sources {sources.length > 0 && <span className="opacity-70 ml-1">{sources.length}</span>}
-        </button>
-
-        <div className="w-[1px] h-6 bg-slate-200 mx-2" />
-
-        <div className="flex items-center gap-1">
-          <NavIconButton icon={<Download size={18} />} />
-          <NavIconButton icon={<Settings size={18} />} />
-          <NavIconButton icon={<UserCircle size={22} />} className="text-slate-900 ml-1" />
-        </div>
-
-        <div className="w-[1px] h-6 bg-slate-200 mx-2" />
-
-        <div className="flex items-center gap-3 pl-2">
-          <span className="text-[12px] font-bold font-mono text-slate-400">{zoomPercent}%</span>
-          <button 
-            onClick={onClearBoard}
-            className="text-[11px] font-bold text-red-500 hover:bg-red-50 px-2 py-1 rounded-md transition-colors"
+        <span className="font-semibold text-gray-200">Nirogyam AI Board</span>
+        {sources.length > 0 && (
+          <div 
+            onClick={() => setShowSources(!showSources)}
+            className="bg-[#2a2a2a] text-[#a78bfa] px-2 py-0.5 rounded-md flex items-center gap-1.5 cursor-pointer hover:bg-[#333] transition-colors"
           >
-            CLEAR
-          </button>
+            <FileText size={12} />
+            <span className="text-[10px] uppercase font-bold tracking-tighter">{sources.length} SOURCES</span>
+          </div>
+        )}
+      </div>
+      <div className="flex gap-4 ml-4 text-gray-500">
+         <Layout size={16} className="cursor-pointer hover:text-white" />
+         <Plus size={16} className="cursor-pointer hover:text-white" />
+         <X size={16} className="cursor-pointer hover:text-red-500" onClick={onClearBoard} title="Clear Board" />
+      </div>
+    </div>
+
+    {/* Global Search Bar (Persistent) */}
+    {!showInitial && (
+      <div className="absolute left-1/2 -translate-x-1/2 top-1.5 w-[400px] z-[110] animate-fade-in">
+        <div className="bg-[#1a1a1a] border border-[#333] rounded-xl px-4 py-1.5 flex items-center gap-3 transition-all focus-within:border-[#7c3aed]/50 focus-within:bg-[#222]">
+          <Search size={14} className="text-gray-500" />
+          <input 
+            type="text" 
+            placeholder="Ask Albus anything..." 
+            className="bg-transparent border-none outline-none text-[13px] text-white w-full placeholder-gray-600"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && onGenerate()}
+          />
+           <RefreshCw 
+            size={14} 
+            className={`text-gray-500 hover:text-[#7c3aed] cursor-pointer transition-all ${isLoading ? 'animate-spin' : ''}`} 
+            onClick={() => onGenerate()}
+          />
         </div>
       </div>
+    )}
+    
+    <nav className="flex bg-[#1a1a1a] rounded-xl p-1 gap-1 shrink-0">
+      <button className="w-10 h-8 flex items-center justify-center text-gray-400 hover:text-white"><Home size={18} /></button>
+      <button className="w-10 h-8 flex items-center justify-center text-gray-400 hover:text-white"><MessageSquare size={18} /></button>
+      <button className="w-10 h-8 flex items-center justify-center bg-[#7c3aed] text-white rounded-lg px-4"><Layout size={18} /></button>
+      <button className="w-10 h-8 flex items-center justify-center text-gray-400 hover:text-white"><Folder size={18} /></button>
+    </nav>
 
+    <div className="flex items-center gap-5 text-[11px] font-medium">
       {isApiKeyMissing && (
-        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-red-100 text-red-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm">
-          ⚠️ GEMINI_API_KEY Missing in Environment
+        <div className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-[10px] items-center gap-1 flex">
+          <span>Demo Mode</span>
         </div>
       )}
+      <div className="flex gap-4 text-gray-500">
+        <Undo2 size={16} className="cursor-pointer hover:text-white" />
+        <RefreshCw size={14} className="cursor-pointer hover:text-white" />
+      </div>
+      <div className="bg-[#1a1a1a] px-3 py-1.5 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-gray-800 transition-colors">
+        <span className="text-gray-300">G2.5 Flash</span> <ChevronDown size={12} className="text-gray-500" />
+      </div>
+    <div className="flex gap-4 text-gray-400 items-center">
+        <Music size={16} /> <Download size={16} /> <Moon size={16} /> <Settings size={16} /> <UserCircle size={22} className="text-gray-300" />
+        <div className="w-[1px] h-4 bg-gray-800 mx-1"></div>
+        <span className="min-w-[40px] text-right text-gray-200 font-mono">{zoomPercent}%</span>
+        <span className="text-gray-500 cursor-pointer">+</span>
+      </div>
     </div>
-  );
-};
-
-const NavIconButton = ({ icon, className = "" }) => (
-  <button className={`p-2 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all ${className}`}>
-    {icon}
-  </button>
+  </div>
 );
 
 export default TopNavBar;

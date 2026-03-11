@@ -1,196 +1,162 @@
 import React, { useState } from 'react';
 import { 
-  RefreshCw, 
-  Trash2, 
-  ChevronRight, 
-  MoreVertical, 
-  MessageSquare, 
-  Sparkles,
-  Link as LinkIcon,
-  CheckCircle,
-  Clock
+  Globe, Image as ImageIcon, Maximize2, X, 
+  MessageSquare, Edit3, Square, Clipboard, Headphones, 
+  ArrowDownCircle, MoreHorizontal, RefreshCw, Plus
 } from 'lucide-react';
 
 const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefresh, onUpdateContent }) => {
+  const [qInput, setQInput] = useState('');
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(node.content || "");
-  const [followUp, setFollowUp] = useState('');
+  const [editValue, setEditValue] = useState(node.content);
 
-  const handleUpdate = () => {
-    onUpdateContent(node.id, editValue);
-    setIsEditing(false);
+  const toggleSpeak = () => {
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    } else {
+      const utterance = new SpeechSynthesisUtterance(node.content);
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v => v.name.includes('Google') || v.name.includes('Premium'));
+      if (preferredVoice) utterance.voice = preferredVoice;
+      
+      utterance.onend = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
+      setIsSpeaking(true);
+    }
   };
 
-  const isQuery = node.type === 'query';
-
-  // Render content with styled citations
-  const renderContent = (content) => {
-    if (!content) return null;
-    const parts = content.split(/(\[.*?\])/g);
-    return parts.map((part, i) => {
-      if (part.startsWith('[') && part.endsWith(']')) {
-        return (
-          <span key={i} className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 text-[10px] font-bold mx-0.5 border border-violet-200 shadow-sm cursor-help hover:bg-violet-600 hover:text-white transition-colors">
-            <LinkIcon size={8} />
-            {part.slice(1, -1)}
-          </span>
-        );
-      }
-      return part;
-    });
+  const handleEditToggle = () => {
+    if (isEditing) {
+      onUpdateContent(node.id, editValue);
+    } else {
+      setEditValue(node.content);
+    }
+    setIsEditing(!isEditing);
   };
 
-  if (isQuery) {
+  if (node.type === 'query') {
     return (
-      <div className="w-[320px] bg-[#0f172a] text-white p-6 rounded-[32px] premium-shadow group border border-white/10 animate-fade-in">
-        <div className="flex items-center gap-2 text-violet-400 text-[10px] font-black uppercase tracking-[0.2em] mb-3">
-          <MessageSquare size={12} />
-          Patient Query
-        </div>
-        <p className="text-xl font-medium leading-tight tracking-tight mono-font">
-          "{node.name}"
-        </p>
-        <div className="flex justify-end mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-           <button onClick={onRefresh} className="p-2 bg-white/10 hover:bg-violet-600 rounded-xl transition-all">
-             <RefreshCw size={14} />
-           </button>
+      <div className="w-[340px] animate-fade-in group/query">
+        <div className="bg-white border-2 border-[#7c3aed]/10 rounded-[24px] px-6 py-4 shadow-sm flex items-center justify-between transition-all hover:border-[#7c3aed]/30 hover:shadow-md cursor-grab active:cursor-grabbing">
+          <span className="font-mono text-[15px] font-bold text-gray-800 truncate pr-4">{node.name}</span>
+          <button 
+            onClick={onRefresh}
+            className="w-10 h-10 bg-[#7c3aed]/5 text-[#7c3aed] rounded-xl flex items-center justify-center hover:bg-[#7c3aed] hover:text-white transition-all transform active:scale-95 shrink-0"
+          >
+            <RefreshCw size={18} />
+          </button>
         </div>
       </div>
     );
   }
-
+  
   return (
-    <div className="w-[380px] bg-white rounded-[40px] premium-shadow border border-slate-100/50 flex flex-col overflow-hidden animate-fade-in">
-      {/* Card Header */}
-      <div className="px-8 pt-8 pb-4 flex justify-between items-start">
-        <div className="flex flex-col">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-700 border border-teal-100 rounded-full text-[10px] font-black uppercase tracking-widest mb-3">
-            <Sparkles size={12} />
-            Clinical Answer
-          </div>
-          <h3 className="text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
-            {node.name}
-          </h3>
-        </div>
-        <div className="flex gap-1">
-           <button onClick={onRemove} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
-             <Trash2 size={16} />
-           </button>
-        </div>
+    <div className="w-[340px] flex flex-col items-center group/card animate-fade-in">
+      {/* Floating Toolbar above card */}
+      <div className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-[12px] px-3 py-1.5 flex items-center gap-3.5 shadow-lg mb-3 transition-all duration-300 opacity-0 group-hover/card:opacity-100 transform translate-y-1 group-hover/card:translate-y-0">
+        <div className={`w-4 h-4 rounded-full border border-black/5 shadow-inner cursor-pointer hover:scale-110 transition-transform ${node.color === 'teal' ? 'bg-[#99ebe1]' : 'bg-[#f2d05c]'}`}></div>
+        <div className="w-[1px] h-3 bg-gray-200"></div>
+        <Edit3 
+          size={14} 
+          className={`${isEditing ? 'text-[#7c3aed]' : 'text-gray-500'} hover:text-black cursor-pointer transition-colors`} 
+          onClick={handleEditToggle}
+        />
+        <Square size={14} className="text-gray-500 hover:text-black cursor-pointer" />
+        <Clipboard size={14} className="text-gray-500 hover:text-black cursor-pointer" />
+        <div className="w-[1px] h-3 bg-gray-200"></div>
+        <Headphones 
+          size={14} 
+          className={`${isSpeaking ? 'text-[#7c3aed] fill-[#7c3aed]/10' : 'text-gray-500'} hover:text-[#7c3aed] cursor-pointer transition-colors`} 
+          onClick={toggleSpeak}
+        />
+        <ArrowDownCircle size={14} className="text-gray-500 hover:text-[#7c3aed] cursor-pointer" />
+        <MoreHorizontal size={14} className="text-gray-400 hover:text-black cursor-pointer" />
       </div>
 
-      {/* Content Body */}
-      <div className="px-8 pb-4 flex-1">
-        {node.isLoading ? (
-          <div className="py-6 flex flex-col items-center gap-4">
-             <div className="w-12 h-1 border-2 border-slate-100 rounded-full overflow-hidden relative">
-                <div className="absolute top-0 left-0 h-full bg-violet-600 w-1/2 animate-[loadingAnim_1s_infinite]" />
-             </div>
-             <p className="text-slate-400 text-xs font-bold uppercase tracking-widest flex items-center gap-2 leading-none">
-                <Clock size={12} /> Synthesizing Knowledge...
-             </p>
-          </div>
-        ) : isEditing ? (
-          <div className="flex flex-col gap-3">
-            <textarea
-              className="w-full text-[15px] font-medium leading-relaxed text-slate-700 p-4 bg-slate-50 border border-slate-200 rounded-3xl min-h-[150px] outline-none focus:border-violet-600 transition-all scroll-elegant"
-              value={editValue}
-              onChange={(e) => setEditValue(e.target.value)}
-              autoFocus
-            />
-            <div className="flex gap-2">
-              <button 
-                onClick={handleUpdate}
-                className="flex-1 py-2.5 bg-[#0f172a] text-white text-xs font-bold rounded-2xl hover:bg-violet-600 transition-colors shadow-lg shadow-black/5"
-              >
-                SAVE EDITS
-              </button>
-              <button 
-                onClick={() => setIsEditing(false)}
-                className="py-2.5 px-4 bg-slate-100 text-slate-500 text-xs font-bold rounded-2xl hover:bg-slate-200 transition-colors"
-              >
-                CANCEL
-              </button>
+      <div className="relative">
+        <div className={`w-[340px] rounded-[16px] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] overflow-hidden border border-gray-100 relative group transition-all duration-300 hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.15)] ${node.color === 'yellow' ? 'bg-[#fef9e7]' : 'bg-white'}`}>
+          {/* Header */}
+          <div className={`px-5 py-3.5 flex justify-between items-center font-bold text-[13px] ${node.color === 'teal' ? 'bg-[#99ebe1] text-[#0f4d44]' : 'bg-[#f2d05c] text-[#5c4b09]'}`}>
+            <span className="truncate max-w-[200px] leading-tight text-left block w-full">{node.name}</span>
+            <div className="flex items-center gap-2.5 opacity-60 shrink-0">
+              <Globe size={13} /> 
+              <ImageIcon size={13} /> 
+              <Maximize2 size={13} />
+              <X size={14} className="cursor-pointer hover:opacity-100" onClick={onRemove} />
             </div>
           </div>
-        ) : (
-          <div 
-            className="text-[15px] font-medium leading-[1.6] text-slate-600 cursor-text scroll-elegant max-h-[400px] overflow-y-auto whitespace-pre-wrap pr-2"
-            onDoubleClick={() => {
-              setEditValue(node.content);
-              setIsEditing(true);
-            }}
-          >
-            {renderContent(node.content)}
-          </div>
-        )}
-      </div>
-
-      {/* Suggestions Button */}
-      {!node.isLoading && (
-        <div className="px-8 pb-2">
-           <button 
-            onClick={onShowSuggestions}
-            className="w-full py-4 flex items-center justify-between group"
-           >
-              <div className="flex items-center gap-3">
-                 <div className="w-8 h-8 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center group-hover:bg-violet-600 group-hover:text-white transition-all">
-                    <Plus size={16} />
-                 </div>
-                 <span className="text-xs font-bold text-slate-400 group-hover:text-violet-600 uppercase tracking-widest transition-colors">
-                    Explore deeper insights
-                 </span>
+          
+          {/* Content Body */}
+          <div className={`p-7 text-[14px] leading-relaxed text-gray-800 max-h-[480px] overflow-y-auto font-[400] scroll-elegant border-b border-gray-50/10`}>
+            {node.isLoading ? (
+              <div className="space-y-4 py-2 text-left w-full">
+                <div className="h-3 bg-gray-100/50 rounded-full w-full animate-pulse"></div>
+                <div className="h-3 bg-gray-100/50 rounded-full w-[94%] animate-pulse delay-75"></div>
+                <div className="h-3 bg-gray-100/50 rounded-full w-[88%] animate-pulse delay-150"></div>
+                <div className="h-3 bg-gray-100/50 rounded-full w-[96%] animate-pulse delay-200"></div>
               </div>
-              <ChevronRight size={16} className="text-slate-300 group-hover:translate-x-1 group-hover:text-violet-600 transition-all" />
-           </button>
+            ) : isEditing ? (
+              <textarea 
+                className="w-full min-h-[150px] bg-transparent outline-none resize-none font-sans text-[14px] leading-relaxed"
+                value={editValue}
+                onChange={e => setEditValue(e.target.value)}
+                onBlur={handleEditToggle}
+                autoFocus
+              />
+            ) : (
+              <div className="whitespace-pre-wrap text-left" onDoubleClick={() => setIsEditing(true)}>
+                {node.content.split(/(\[.*?\])/).map((part, i) => {
+                  if (part.startsWith('[') && part.endsWith(']')) {
+                    return (
+                      <span 
+                        key={i} 
+                        className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-[#7c3aed]/10 text-[#7c3aed] text-[10px] font-bold mx-0.5 cursor-help border border-[#7c3aed]/20"
+                        title="Information grounded in source"
+                      >
+                        {part.slice(1, -1)}
+                      </span>
+                    );
+                  }
+                  return part;
+                })}
+              </div>
+            )}
+          </div>
         </div>
-      )}
 
-      {/* Bottom Follow-up Input */}
-      <div className="px-4 pb-4">
-        <div className="bg-[#fefce8] p-1.5 rounded-[32px] border border-[#fef08a] flex items-center shadow-inner group focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-400/20 transition-all">
-           <input 
-             type="text" 
-             placeholder="Ask a question..."
-             className="flex-1 bg-transparent px-5 py-3 text-sm font-bold text-yellow-900 placeholder:text-yellow-700/40 outline-none"
-             value={followUp}
-             onChange={(e) => setFollowUp(e.target.value)}
-             onKeyDown={(e) => {
-               if (e.key === 'Enter' && followUp.trim()) {
-                 onSubmitQuestion(followUp);
-                 setFollowUp('');
-               }
-             }}
-           />
-           <button 
-             onClick={() => {
-               if(followUp.trim()){
-                 onSubmitQuestion(followUp);
-                 setFollowUp('');
-               }
-             }}
-             className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-yellow-700 shadow-sm border border-yellow-100 hover:bg-yellow-100 active:scale-95 transition-all"
-           >
-             <ArrowRight size={18} />
-           </button>
+        {/* Suggestion Toggle Button (+) */}
+        <button 
+          onClick={onShowSuggestions} 
+          className="absolute -right-4 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 shadow-lg hover:text-[#7c3aed] hover:border-[#7c3aed]/20 transition-all hover:scale-110 z-20 group"
+        >
+          <Plus size={18} className="transition-transform group-hover:rotate-90" />
+        </button>
+
+        {/* Ask a question field (Always visible below response cards) */}
+        <div className="mt-3 w-full bg-[#fef9e7] rounded-[24px] border border-[#f2d05c]/20 p-4 shadow-sm transition-all focus-within:shadow-md focus-within:border-[#f2d05c]/50">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#f2d05c] flex items-center justify-center text-amber-900 shadow-sm shrink-0">
+              <MessageSquare size={14} />
+            </div>
+            <input 
+              className="bg-transparent flex-1 outline-none text-[14px] text-[#5c4b09] font-medium placeholder-[#5c4b09]/30" 
+              placeholder="Ask a question" 
+              value={qInput} 
+              onChange={e => setQInput(e.target.value)} 
+              onKeyPress={e => {
+                if (e.key === 'Enter' && qInput.trim()) {
+                  onSubmitQuestion(qInput);
+                  setQInput('');
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
-const Plus = ({ size, className }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <line x1="12" y1="5" x2="12" y2="19"></line>
-    <line x1="5" y1="12" x2="19" y2="12"></line>
-  </svg>
-);
-
-const ArrowRight = ({ size, className }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <line x1="5" y1="12" x2="19" y2="12"></line>
-    <polyline points="12 5 19 12 12 19"></polyline>
-  </svg>
-);
 
 export default NodeCard;
