@@ -35,12 +35,15 @@ export const useCanvas = (nodes, links) => {
     simulationRef.current.on("tick", () => {
       // Direct DOM update instead of React state for performance
       d3.selectAll(".node-group")
+        .data(simulationRef.current.nodes())
         .attr("transform", d => `translate(${d.x - 170}, ${d.y - 150})`);
 
       d3.selectAll(".link-path")
+        .data(simulationRef.current.force("link").links())
         .attr("d", d => {
           const src = d.source;
           const tgt = d.target;
+          if(!src || !tgt || src.x===undefined || tgt.x===undefined) return "";
           const dx = tgt.x - src.x;
           // Curved bezier line
           return `M${src.x},${src.y} C${src.x + dx/2},${src.y} ${tgt.x - dx/2},${tgt.y} ${tgt.x},${tgt.y}`;
@@ -76,8 +79,33 @@ export const useCanvas = (nodes, links) => {
     if (!simulationRef.current) return;
     const simulation = simulationRef.current;
     
-    simulation.nodes(nodes);
-    simulation.force("link").links(links);
+    // Preserve existing D3 simulation state so dragged nodes don't snap back to stale React state coords
+    const currentNodes = simulation.nodes();
+    const newNodes = nodes.map(n => {
+      const existing = currentNodes.find(en => en.id === n.id);
+      if (existing) {
+        Object.assign(n, {
+          x: existing.x, y: existing.y, vx: existing.vx, vy: existing.vy,
+          fx: existing.fx, fy: existing.fy
+        });
+      }
+      return n;
+    });
+
+    // Ensure links always point to the fresh newNodes representations 
+    // Otherwise D3 will hold stale object references from previous React state
+    const newLinks = links.map(l => {
+      const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
+      const targetId = typeof l.target === 'object' ? l.target.id : l.target;
+      return { 
+        ...l, 
+        source: newNodes.find(n => n.id === sourceId) || sourceId, 
+        target: newNodes.find(n => n.id === targetId) || targetId 
+      };
+    });
+
+    simulation.nodes(newNodes);
+    simulation.force("link").links(newLinks);
     simulation.alpha(1).restart();
 
     // Re-attach drag to new nodes
@@ -95,7 +123,7 @@ export const useCanvas = (nodes, links) => {
         if (!event.active) simulation.alphaTarget(0);
       });
     
-    d3.selectAll(".node-group").call(drag);
+    d3.selectAll(".node-group").data(simulation.nodes()).call(drag);
   }, [nodes.length, links.length]);
 
   const navigateTo = (x, y, k = 1) => {

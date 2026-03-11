@@ -140,7 +140,7 @@ const AIBoard = () => {
               height="800"
               style={{ pointerEvents: 'none', overflow: 'visible' }}
             >
-              <div className="pointer-events-auto flex flex-col items-center w-full" onMouseDown={e => e.stopPropagation()}>
+              <div className="pointer-events-auto flex flex-col items-center w-full">
                 <NodeCard 
                   node={node} 
                   onRemove={() => {
@@ -157,31 +157,24 @@ const AIBoard = () => {
                   onUpdateContent={onUpdateContent}
                   isActive={activeSuggestionsNode?.id === node.id}
                 />
+                
+                {/* Embed SuggestionPanel INSIDE the tracked D3 group! */}
+                {activeSuggestionsNode?.id === node.id && (
+                  <div className="absolute left-[360px] top-[15px] z-[200] animate-fade-in pointer-events-auto origin-top-left">
+                    <SuggestionPanel 
+                      node={activeSuggestionsNode} 
+                      onClose={() => setActiveSuggestionsNode(null)} 
+                      onSelect={(s) => handleGenerate(s, activeSuggestionsNode)} 
+                      suggestions={suggestions} 
+                      isLoading={isSuggesting} 
+                    />
+                  </div>
+                )}
               </div>
             </foreignObject>
           ))}
         </g>
       </svg>
-
-      {activeSuggestionsNode && (
-        <div 
-          className="fixed z-[200] animate-fade-in pointer-events-none"
-          style={{ 
-            left: (activeSuggestionsNode.x + 180) * transform.k + transform.x,
-            top: activeSuggestionsNode.y * transform.k + transform.y,
-            transform: `translateY(-50%) scale(${transform.k})`,
-            transformOrigin: 'left center'
-          }}
-        >
-          <SuggestionPanel 
-            node={activeSuggestionsNode} 
-            onClose={() => setActiveSuggestionsNode(null)} 
-            onSelect={(s) => handleGenerate(s, activeSuggestionsNode)} 
-            suggestions={suggestions} 
-            isLoading={isSuggesting} 
-          />
-        </div>
-      )}
 
       {showSources && sources.length > 0 && (
         <SourcesSidebar 
