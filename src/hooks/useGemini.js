@@ -76,24 +76,7 @@ Be concise, accurate, and professional.`;
     try {
       const prompt = `Context: ${node.content}\n\nTask: Generate 4 short, highly relevant follow-up questions or sub-topics for a patient training mind map about ${node.name}. Return ONLY a JSON array of strings. Example: ["How long is recovery?", "What are the diet restrictions?"]`;
       
-      // Try hitting the API proxy first
-      try {
-        const res = await fetch('/api/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt, type: 'suggestions' })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          const cleaned = data.text.replace(/```json|```/g, '').trim();
-          const parsed = JSON.parse(cleaned);
-          setSuggestions(parsed);
-          return parsed;
-        }
-      } catch (e) {
-        console.warn("API Proxy failed (expected in local dev), falling back to client-side...");
-      }
-
+      // API Call
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
