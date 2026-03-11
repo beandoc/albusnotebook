@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mind Map | notebooklm-py</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mindmap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body class="mindmap-page">
+    <div class="mindmap-container">
+        <nav class="mindmap-nav">
+            <div class="logo-group" onclick="location.href='index.html'">
+                <i class="fas fa-book-open"></i>
+                <span>notebooklm-py</span>
+            </div>
+            <div class="nav-controls">
+                <div class="search-box">
+                    <input type="text" id="node-input" placeholder="Enter a topic to explore...">
+                    <button id="generate-btn"><i class="fas fa-wand-magic-sparkles"></i> Expand</button>
+                </div>
+                <button class="icon-btn" onclick="resetGraph()" title="Reset View"><i class="fas fa-sync"></i></button>
+                <button class="icon-btn" onclick="exportJSON()" title="Export JSON"><i class="fas fa-download"></i></button>
+            </div>
+            <div class="back-link">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </nav>
+
+        <div id="canvas-wrapper">
+            <svg id="mindmap-canvas"></svg>
+            <div class="zoom-controls">
+                <button onclick="zoomIn()"><i class="fas fa-plus"></i></button>
+                <button onclick="zoomOut()"><i class="fas fa-minus"></i></button>
+            </div>
+        </div>
+
+        <aside class="node-details" id="details-panel">
+            <div class="panel-header">
+                <h3 id="panel-title">Select a node</h3>
+                <button class="close-btn" onclick="closePanel()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="panel-content">
+                <p id="panel-description">Click on any node to see detailed insights and AI-generated summaries.</p>
+                <div id="panel-meta"></div>
+                <button class="btn btn-primary expand-node-btn" id="expand-node-btn">
+                    <i class="fas fa-plus-circle"></i> Generate Subtopics
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="loader" class="hidden">
+        <div class="spinner"></div>
+        <p>AI is thinking...</p>
+    </div>
+
+    <script src="mindmap.js"></script>
+</body>
+</html>

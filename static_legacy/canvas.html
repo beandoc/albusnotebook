@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas | notebooklm-py</title>
+    <link rel="stylesheet" href="canvas.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body class="canvas-page">
+    <header class="top-toolbar">
+        <div class="title-section">
+            <span id="doc-title">Untitled document</span>
+            <div class="title-icons">
+                <i class="far fa-copy"></i>
+                <i class="fas fa-plus"></i>
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        
+        <nav class="center-nav">
+            <div class="nav-item" onclick="location.href='dashboard.html'"><i class="fas fa-home"></i></div>
+            <div class="nav-item"><i class="far fa-comments"></i></div>
+            <div class="nav-item active"><i class="fas fa-project-diagram"></i></div>
+            <div class="nav-item"><i class="far fa-folder"></i></div>
+        </nav>
+
+        <div class="right-controls">
+            <div class="history-icons">
+                <i class="fas fa-undo"></i>
+                <i class="fas fa-redo"></i>
+            </div>
+            <div class="model-selector">
+                <span>GPT-4o</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <i class="fas fa-music"></i>
+            <i class="fas fa-download"></i>
+            <i class="far fa-moon"></i>
+            <i class="fas fa-cog"></i>
+            <i class="far fa-user-circle"></i>
+            <span>100%</span>
+        </div>
+    </header>
+
+    <main id="canvas-wrapper">
+        <svg id="canvas-svg"></svg>
+        
+        <div class="central-query" id="main-query-card">
+            <input type="text" placeholder="what is kidney biopsy procedure" id="query-input">
+            <div class="refresh-btn" id="generate-trigger">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+        </div>
+
+        <div class="canvas-minimap">
+            <div id="minimap-preview"></div>
+            <span class="minimap-label">Albus Minimap</span>
+        </div>
+    </main>
+
+    <nav class="bottom-palette">
+        <div class="tool-btn primary"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <div class="tool-btn"><i class="fas fa-circle"></i></div>
+        <div class="tool-btn"><i class="fas fa-code-branch"></i></div>
+        <div class="tool-btn"><i class="far fa-square"></i></div>
+        <div class="tool-btn"><i class="fas fa-heading"></i></div>
+        <div class="tool-btn"><i class="fas fa-font"></i></div>
+        <div class="tool-btn"><i class="far fa-file"></i></div>
+        <div class="tool-btn"><i class="far fa-image"></i></div>
+        <div class="tool-btn"><i class="fab fa-youtube"></i></div>
+    </nav>
+
+    <footer class="canvas-footer">
+        <span>Provide feedback</span>
+        <span>v2.2</span>
+    </footer>
+
+    <script src="canvas.js"></script>
+</body>
+</html>

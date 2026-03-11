@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --canvas-bg: #ffffff;
+  --grid-line: #f0f0f0;
+  --accent-purple: #7c3aed;
+  --text-primary: #1a1a1b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--canvas-bg);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-grid {
+  background-color: #ffffff;
+  background-image: radial-gradient(#d1d5db 1px, transparent 0px);
+  background-size: 20px 20px;
+  background-position: center;
+}
+
+/* Custom Scrollbar for Cards */
+.scroll-elegant::-webkit-scrollbar {
+  width: 5px;
+}
+.scroll-elegant::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-elegant::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+.scroll-elegant::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

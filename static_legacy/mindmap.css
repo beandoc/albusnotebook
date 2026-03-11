@@ -1,0 +1,251 @@
+:root {
+    --mindmap-bg: #020617;
+    --node-primary: #6366f1;
+    --node-secondary: #0ea5e9;
+    --node-accent: #22d3ee;
+    --link-color: rgba(148, 163, 184, 0.2);
+    --panel-bg: rgba(15, 23, 42, 0.85);
+    --text-glow: 0 0 15px rgba(99, 102, 241, 0.5);
+}
+
+.mindmap-page {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--mindmap-bg);
+    height: 100vh;
+    width: 100vw;
+}
+
+.mindmap-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+/* Nav */
+.mindmap-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 100;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.logo-group i { color: var(--node-primary); }
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.search-box {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+    padding: 2px;
+    width: 400px;
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    color: white;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.search-box button {
+    background: var(--node-primary);
+    border: none;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 99px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.search-box button:hover {
+    background: var(--primary-hover);
+    transform: scale(1.05);
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Canvas */
+#canvas-wrapper {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+#mindmap-canvas {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+#mindmap-canvas:active { cursor: grabbing; }
+
+.zoom-controls {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.zoom-controls button {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: var(--panel-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+/* Sidebar Panel */
+.node-details {
+    position: absolute;
+    top: 5rem;
+    left: 2rem;
+    width: 350px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 2rem;
+    z-index: 50;
+    transform: translateX(-120%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.node-details.active { transform: translateX(0); }
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.panel-header h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.panel-content p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.expand-node-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+/* D3 Graph Elements */
+.node circle {
+    stroke-width: 2px;
+    transition: 0.3s;
+}
+
+.node text {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    pointer-events: none;
+    fill: #f8fafc;
+}
+
+.node:hover circle {
+    stroke-width: 4px;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.link {
+    fill: none;
+    stroke: var(--link-color);
+    stroke-width: 1.5px;
+}
+
+/* Loader */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    gap: 1.5rem;
+}
+
+#loader.hidden { display: none; }
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(99, 102, 241, 0.1);
+    border-top: 3px solid var(--node-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

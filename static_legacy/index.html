@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>notebooklm-py | Unofficial Python API & CLI for NotebookLM</title>
+    <meta name="description" content="A powerful Python library and CLI for Google's NotebookLM. Automate research, generate content, and integrate with AI agents.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>notebooklm-py</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="dashboard.html" class="nav-highlight">Dashboard</a>
+                <a href="canvas.html">Canvas</a>
+                <a href="https://github.com/teng-lin/notebooklm-py" class="github-btn" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Unofficial Library</div>
+                <h1>Empower your research with <span class="gradient-text">NotebookLM</span></h1>
+                <p>The ultimate Python API and CLI for programmatic access to Google's NotebookLM. Automate sources, chat history, and rich content generation.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary" onclick="location.href='dashboard.html'"><i class="fas fa-th-large"></i> Go to Dashboard</button>
+                    <button class="btn btn-secondary" onclick="location.href='canvas.html'"><i class="fas fa-project-diagram"></i> Open Canvas</button>
+                    <div class="install-pill" onclick="copyInstallCommand()">
+                        <code>pip install notebooklm-py</code>
+                        <i class="far fa-copy"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="notebooklm_py_hero_1773196229659.png" alt="NotebookLM Hub Visualization">
+            </div>
+        </div>
+    </header>
+
+    <section class="disclaimer-section">
+        <div class="container">
+            <div class="disclaimer-card">
+                <div class="icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="content">
+                    <h3>Use at Your Own Risk</h3>
+                    <p>This library uses undocumented Google APIs that can change without notice. It is a community project and not affiliated with Google.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">What You Can Build</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="f-icon ai">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Agent Tools</h3>
+                    <p>Integrate NotebookLM into Claude Code or other LLM agents. Ships with Claude Code skills for natural language automation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon research">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3>Research Automation</h3>
+                    <p>Bulk-import sources (URLs, PDFs, YouTube, Google Drive) and run web/Drive research queries with auto-import.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon content">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>Content Generation</h3>
+                    <p>Generate Audio Overviews, videos, slide decks, quizzes, flashcards, infographics, and mind maps with full control.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon export">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <h3>Downloads & Export</h3>
+                    <p>Batch download artifacts locally (MP3, MP4, PDF, PNG, CSV, JSON, Markdown) or export to Google Docs/Sheets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="content-types" class="content-showcase">
+        <div class="container">
+            <div class="showcase-content">
+                <h2 class="section-title">Diverse Content Formats</h2>
+                <div class="showcase-visual">
+                    <img src="notebooklm_content_types_1773196316324.png" alt="Content Types Collage">
+                </div>
+                <div class="showcase-text">
+                    <p>Go beyond simple text. Generate immersive Audio Overviews, whiteboard-style videos, interactive mind maps, and structured study aids. notebooklm-py gives you full programmatic control over styles, lengths, and output formats.</p>
+                    <button class="btn btn-primary" onclick="location.href='canvas.html'" style="margin-top: 1.5rem;">Launch Canvas Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="capabilities">
+        <div class="container">
+            <h2 class="section-title">Complete Coverage</h2>
+            <div class="cap-grid">
+                <div class="cap-category">
+                    <h3><i class="fas fa-folder"></i> Notebooks & Sources</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Create, list, rename, delete</li>
+                        <li><i class="fas fa-check"></i> URLs, YouTube, Files (PDF, Audio, Video, etc.)</li>
+                        <li><i class="fas fa-check"></i> Google Drive Integration</li>
+                        <li><i class="fas fa-check"></i> Refresh sources & get fulltext</li>
+                    </ul>
+                </div>
+                <div class="cap-category">
+                    <h3><i class="fas fa-comments"></i> Chat & Research</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Questions with conversation history</li>
+                        <li><i class="fas fa-check"></i> Custom personas for responses</li>
+                        <li><i class="fas fa-check"></i> Web & Drive research agents</li>
+                        <li><i class="fas fa-check"></i> Public/Private link sharing</li>
+                    </ul>
+                </div>
+                <div class="cap-category">
+                    <h3><i class="fas fa-star"></i> Beyond Web UI</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Batch downloads of all artifacts</li>
+                        <li><i class="fas fa-check"></i> Structured Quiz/Flashcard export (JSON)</li>
+                        <li><i class="fas fa-check"></i> Mind map data extraction</li>
+                        <li><i class="fas fa-check"></i> Slide revision via natural language</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="usage" class="usage">
+        <div class="container">
+            <h2 class="section-title">Simple to Use</h2>
+            <div class="code-tabs">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="python">Python API</button>
+                    <button class="tab-btn" data-tab="cli">CLI</button>
+                    <button class="tab-btn" data-tab="agent">Agent Skills</button>
+                </div>
+                <div class="tab-content" id="python">
+<pre><code><span class="keyword">import</span> asyncio
+<span class="keyword">from</span> notebooklm <span class="keyword">import</span> NotebookLMClient
+
+<span class="keyword">async def</span> <span class="function">main</span>():
+    <span class="keyword">async with await</span> NotebookLMClient.from_storage() <span class="keyword">as</span> client:
+        <span class="comment"># Create notebook and add sources</span>
+        nb = <span class="keyword">await</span> client.notebooks.create(<span class="string">"Research"</span>)
+        <span class="keyword">await</span> client.sources.add_url(nb.id, <span class="string">"https://example.com"</span>, wait=<span class="keyword">True</span>)
+
+        <span class="comment"># Chat with your sources</span>
+        result = <span class="keyword">await</span> client.chat.ask(nb.id, <span class="string">"Summarize this"</span>)
+        print(result.answer)
+
+        <span class="comment"># Generate content</span>
+        status = <span class="keyword">await</span> client.artifacts.generate_audio(nb.id)
+        <span class="keyword">await</span> client.artifacts.download_audio(nb.id, <span class="string">"podcast.mp3"</span>)
+
+asyncio.run(main())</code></pre>
+                </div>
+                <div class="tab-content hidden" id="cli">
+<pre><code><span class="comment"># Authenticate (opens browser)</span>
+notebooklm login
+
+<span class="comment"># Create and use notebook</span>
+notebooklm create <span class="string">"My Research"</span>
+notebooklm use <span class="string">&lt;notebook_id&gt;</span>
+
+<span class="comment"># Add sources and chat</span>
+notebooklm source add <span class="string">"./paper.pdf"</span>
+notebooklm ask <span class="string">"What are the key themes?"</span>
+
+<span class="comment"># Generate and download</span>
+notebooklm generate audio <span class="string">"--wait"</span>
+notebooklm download audio <span class="string">"./podcast.mp3"</span></code></pre>
+                </div>
+                <div class="tab-content hidden" id="agent">
+<pre><code><span class="comment"># Install via CLI</span>
+notebooklm skill install
+
+<span class="comment"># Ask Claude to research</span>
+<span class="string">"Create a podcast about quantum computing"</span>
+<span class="string">"Download the quiz as markdown"</span>
+<span class="string">"/notebooklm generate video"</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="installation" class="installation">
+        <div class="container">
+            <h2 class="section-title">Get Started</h2>
+            <div class="install-steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <h4>Install the package</h4>
+                        <div class="code-box">
+                            <code>pip install notebooklm-py</code>
+                            <i class="far fa-copy" onclick="copyText('pip install notebooklm-py')"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <h4>(Optional) Browser Support</h4>
+                        <p>Required for first-time login setup.</p>
+                        <div class="code-box">
+                            <code>pip install "notebooklm-py[browser]"</code>
+                            <i class="far fa-copy" onclick="copyText('pip install &quot;notebooklm-py[browser]&quot;')"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <h4>Install Playwright</h4>
+                        <div class="code-box">
+                            <code>playwright install chromium</code>
+                            <i class="far fa-copy" onclick="copyText('playwright install chromium')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <span>notebooklm-py</span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/teng-lin/notebooklm-py">GitHub</a>
+                    <a href="https://github.com/teng-lin/notebooklm-py/issues">Issues</a>
+                    <a href="https://pypi.org/project/notebooklm-py/">PyPI</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Community Project. Not affiliated with Google.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
