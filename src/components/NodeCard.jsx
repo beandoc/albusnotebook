@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RefreshCw, X } from 'lucide-react';
+import { RefreshCw, X, Plus } from 'lucide-react';
 
 const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefresh, onUpdateContent }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -82,6 +82,16 @@ const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefre
           )}
         </div>
       </div>
+      
+      {/* Plus button at right edge */}
+      {!node.isLoading && (
+        <button 
+          onClick={onShowSuggestions} 
+          className="absolute right-[-14px] top-1/2 -translate-y-1/2 w-7 h-7 bg-white border border-[#e5e5e5] rounded-full flex items-center justify-center text-[#555] shadow-sm hover:text-black hover:border-[#111] transition-all z-20"
+        >
+           <Plus size={14} />
+        </button>
+      )}
 
     </div>
   );
