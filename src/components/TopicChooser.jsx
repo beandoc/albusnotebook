@@ -1,81 +1,102 @@
 import React from 'react';
-import { ArrowRight, Upload, Search } from 'lucide-react';
+import { UploadCloud, MessageSquare, Map, Plus } from 'lucide-react';
 import { PRESET_TOPICS } from '../data/presetTopics';
 
 const TopicChooser = ({ query, setQuery, onGenerate, onSelectTopic, onFileUpload, isLoading }) => (
-  <div className="absolute top-0 left-0 w-full h-full bg-[#fcfcfc] z-50 overflow-y-auto flex flex-col items-center justify-center animate-fade-in font-sans">
-    <div className="w-full max-w-[800px] px-8 -mt-20">
+  <div className="absolute top-0 left-0 w-full h-full bg-[#f2ede6] z-50 flex items-center justify-center font-sans tracking-tight">
+    
+    <div className="w-full max-w-[1100px] px-8 flex justify-between items-start">
       
-      {/* Search Section */}
-      <div className="mb-12 text-center">
-        <h1 className="text-[42px] font-semibold text-[#111111] leading-tight tracking-tight mb-8">
-          Explore a topic or upload content
+      {/* Left Column: Greeting and Actions */}
+      <div className="flex-1 max-w-[420px]">
+        <h1 className="text-[56px] font-black text-[#111] leading-none mb-6 font-serif tracking-[-0.04em]">
+          Hello Sachin.
         </h1>
-        
-        <div className="w-full bg-white border border-[#e5e5e5] rounded-[32px] p-2 flex items-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] focus-within:shadow-[0_4px_20px_rgba(0,0,0,0.06)] focus-within:border-[#d1d1d1] transition-all">
-          <div className="pl-4 pr-2 text-[#999999]">
-            <Search size={22} strokeWidth={2} />
-          </div>
-          <input 
-            type="text" 
-            placeholder="Ask about kidney health..."
-            className="flex-1 bg-transparent px-2 py-4 text-[17px] font-medium outline-none text-[#111111] placeholder:text-[#999999]"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && query.trim() && onGenerate()}
-          />
+        <p className="text-[18px] font-medium text-[#111] leading-snug mb-12 max-w-[360px]">
+          Your boards and conversations are on the right. For an advanced speech assistant download our mobile application.
+        </p>
+
+        <div className="flex flex-col gap-4 w-[300px]">
           <button 
-            onClick={() => onGenerate()}
-            disabled={isLoading || !query.trim()}
-            className="w-12 h-12 flex flex-shrink-0 items-center justify-center bg-[#111111] text-white rounded-full hover:bg-[#333333] transition-colors disabled:opacity-50 mx-1"
+            onClick={onFileUpload}
+            className="flex items-center gap-3 bg-[rgba(255,255,255,0.4)] hover:bg-[rgba(255,255,255,0.7)] border border-[rgba(0,0,0,0.05)] rounded-[12px] px-5 py-3.5 text-[15px] font-bold text-[#111] transition-colors"
           >
-            {isLoading ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : (
-              <ArrowRight size={20} strokeWidth={2.5} />
-            )}
+            <UploadCloud size={18} strokeWidth={2.5} />
+            Upload and index your files
+          </button>
+
+          <button 
+            className="flex items-center gap-3 bg-[rgba(255,255,255,0.4)] hover:bg-[rgba(255,255,255,0.7)] border border-[rgba(0,0,0,0.05)] rounded-[12px] px-5 py-3.5 text-[15px] font-bold text-[#111] transition-colors"
+          >
+            <MessageSquare size={18} strokeWidth={2.5} />
+            Start a new conversation
+          </button>
+
+          <button 
+            onClick={() => onGenerate("Start Blank Canvas")}
+            className="flex items-center gap-3 bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.05)] hover:bg-[rgba(255,255,255,0.7)] rounded-[12px] px-5 py-3.5 text-[15px] font-bold text-[#111] transition-colors"
+          >
+            <Map size={18} strokeWidth={2.5} />
+            Work on a new canvas
           </button>
         </div>
       </div>
 
-      {/* Upload & Presets */}
-      <div className="flex flex-col gap-6">
-        <div className="flex items-center justify-between">
-          <span className="text-[13px] font-semibold text-[#888888] uppercase tracking-wider">
-            Or try these topics
-          </span>
-        </div>
+      {/* Right Column: Topics / Lists */}
+      <div className="flex gap-6 mt-4">
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div 
-            onClick={onFileUpload}
-            className="group flex flex-col justify-between bg-white border border-[#e5e5e5] rounded-[24px] p-5 cursor-pointer hover:border-[#111111] hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-all h-[140px]"
-          >
-            <div className="w-10 h-10 bg-[#f5f5f5] rounded-full flex items-center justify-center text-[#111111] group-hover:bg-[#111111] group-hover:text-white transition-colors">
-              <Upload size={18} />
+        {/* Conversations Column */}
+        <div className="w-[300px] bg-[rgba(255,255,255,0.6)] rounded-[12px] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <MessageSquare size={16} strokeWidth={2.5} className="text-[#111]" />
+              <h3 className="text-[15px] font-bold text-[#111]">Conversations</h3>
             </div>
-            <div className="font-medium text-[15px] text-[#111111]">
-              Upload local<br/>document
+            <button className="text-[#111] hover:bg-[rgba(0,0,0,0.05)] rounded-md p-1">
+              <Plus size={16} />
+            </button>
+          </div>
+          
+          <div className="flex flex-col gap-1">
+            <div className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md">
+              Skincare for Lupus Nephritis
+            </div>
+            <div className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md">
+              image
+            </div>
+            <div className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md">
+              image
             </div>
           </div>
-
-          {PRESET_TOPICS.slice(0, 5).map(topic => (
-            <div 
-              key={topic.id}
-              onClick={() => onSelectTopic(topic)}
-              className="group flex flex-col justify-between bg-white border border-[#e5e5e5] rounded-[24px] p-5 cursor-pointer hover:border-[#111111] hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-all h-[140px]"
-            >
-              <div className="text-2xl">
-                {topic.icon}
-              </div>
-              <div className="font-medium text-[15px] text-[#111111] leading-tight">
-                {topic.title.replace(/[^a-zA-Z\s]/g, '').trim()}
-              </div>
-            </div>
-          ))}
         </div>
-      </div>
 
+        {/* Boards Column (Using Presets here) */}
+        <div className="w-[300px] bg-[rgba(255,255,255,0.6)] rounded-[12px] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <Map size={16} strokeWidth={2.5} className="text-[#111]" />
+              <h3 className="text-[15px] font-bold text-[#111]">Boards</h3>
+            </div>
+            <button className="text-[#111] hover:bg-[rgba(0,0,0,0.05)] rounded-md p-1">
+              <Plus size={16} />
+            </button>
+          </div>
+          
+          <div className="flex flex-col gap-1 overflow-y-auto max-h-[300px] scroll-elegant">
+            {PRESET_TOPICS.map(topic => (
+              <div 
+                key={topic.id}
+                onClick={() => onSelectTopic(topic)}
+                className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md truncate"
+              >
+                {topic.title.replace(/[^a-zA-Z\s]/g, '').trim()} Canvas
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+      
     </div>
   </div>
 );

@@ -39,10 +39,11 @@ export const useCanvas = (nodes, links) => {
 
       d3.selectAll(".link-path")
         .attr("d", d => {
-          const source = d.source;
-          const target = d.target;
-          // Straight line for Phase 3.4
-          return `M${source.x},${source.y} L${target.x},${target.y}`;
+          const src = d.source;
+          const tgt = d.target;
+          const dx = tgt.x - src.x;
+          // Curved bezier line
+          return `M${src.x},${src.y} C${src.x + dx/2},${src.y} ${tgt.x - dx/2},${tgt.y} ${tgt.x},${tgt.y}`;
         });
     });
 
