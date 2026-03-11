@@ -1,11 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
-  --canvas-bg: #ffffff;
-  --grid-line: #f0f0f0;
+  --canvas-bg: #fdfdff;
   --accent-purple: #7c3aed;
-  --text-primary: #1a1a1b;
+  --accent-teal: #0d9488;
+  --text-primary: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
 }
 
 * {
@@ -15,47 +17,76 @@
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: var(--text-primary);
   background-color: var(--canvas-bg);
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-}
-
-#root {
-  width: 100%;
-  height: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 .canvas-grid {
-  background-color: #ffffff;
-  background-image: radial-gradient(#d1d5db 1px, transparent 0px);
-  background-size: 20px 20px;
-  background-position: center;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(13, 148, 136, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(124, 58, 237, 0.04) 0px, transparent 50%),
+    linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
 }
 
-/* Custom Scrollbar for Cards */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05);
+}
+
+.premium-shadow {
+  box-shadow: 
+    0 20px 50px -12px rgba(15, 23, 42, 0.12),
+    0 0 1px 0 rgba(15, 23, 42, 0.1);
+}
+
+.topic-card {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.topic-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -12px rgba(124, 58, 237, 0.15);
+}
+
+@keyframes entranceFade {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-premium-in {
+  animation: entranceFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+/* Custom Scrollbar */
 .scroll-elegant::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 .scroll-elegant::-webkit-scrollbar-track {
   background: transparent;
 }
 .scroll-elegant::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
+  background: rgba(15, 23, 42, 0.1);
   border-radius: 10px;
 }
 .scroll-elegant::-webkit-scrollbar-thumb:hover {
-  background: #d1d5db;
+  background: rgba(124, 58, 237, 0.3);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.mono-font {
+  font-family: 'JetBrains Mono', monospace;
 }
