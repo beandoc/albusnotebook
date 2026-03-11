@@ -1,42 +1,43 @@
 import React from 'react';
-import { Wand2, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
-const SuggestionPanel = ({ node, onClose, onSelect, suggestions, isLoading }) => (
-  <div className="bg-white border border-gray-100 rounded-[28px] p-7 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.25)] w-80">
-    <div className="flex justify-between items-center mb-6">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-purple-50 flex items-center justify-center text-[#7c3aed]">
-          <Wand2 size={16} />
-        </div>
-        <h4 className="text-[14px] font-bold text-gray-800">Tell me more...</h4>
-      </div>
-      <button onClick={onClose} className="text-gray-300 hover:text-black transition-colors"><X size={18} /></button>
-    </div>
-    
-    <div className="space-y-2.5">
-      {isLoading ? (
+const SuggestionPanel = ({ node, onClose, onSelect, suggestions, isLoading }) => {
+  return (
+    <div className="relative flex items-center h-full pointer-events-auto font-sans">
+      {/* The overlapping Close Button */}
+      <button 
+        onClick={onClose} 
+        className="absolute left-[-14px] top-1/2 -translate-y-1/2 w-7 h-7 bg-white border border-[#e5e5e5] rounded-full flex items-center justify-center text-[#555] shadow-[0_2px_4px_rgba(0,0,0,0.05)] z-20 hover:text-black hover:border-black transition-all"
+      >
+         <X size={14} />
+      </button>
+
+      {/* The Panel */}
+      <div className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[12px] border-l-[#d1d5db] p-4 pl-6 shadow-[2px_2px_12px_rgba(0,0,0,0.04)] w-[280px]">
+        <p className="text-[12px] font-bold text-[#888] mb-3 ml-1 tracking-wide">Tell me more...</p>
+        
         <div className="space-y-2">
-          {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-10 bg-gray-50 rounded-xl animate-pulse"></div>
-          ))}
+          {isLoading ? (
+            <div className="space-y-2.5">
+              <div className="h-8 bg-[#eec14d]/20 rounded-md animate-pulse"></div>
+              <div className="h-8 bg-[#eec14d]/20 rounded-md animate-pulse delay-75"></div>
+              <div className="h-8 bg-[#eec14d]/20 rounded-md animate-pulse delay-150"></div>
+            </div>
+          ) : (
+            suggestions.map((s, i) => (
+              <button 
+                key={i} 
+                onClick={() => onSelect(s)} 
+                className="block w-full text-left bg-[#eec14d] text-[#6b4700] text-[12px] font-bold py-2.5 px-3 rounded-md hover:brightness-95 transition-all outline-none leading-snug shadow-sm border border-[#e3b032]"
+              >
+                {s}
+              </button>
+            ))
+          )}
         </div>
-      ) : (
-        suggestions.map((s, i) => (
-          <button 
-            key={i} 
-            onClick={() => onSelect(s)} 
-            className={`w-full text-left p-4 rounded-[18px] border border-black/5 font-bold text-[12px] leading-snug transition-all hover:translate-x-1 hover:shadow-md active:scale-95 ${i % 2 === 0 ? 'bg-[#f2d05c] text-[#5c4b09]' : 'bg-[#99ebe1] text-[#0f4d44]'}`}
-          >
-            {s}
-          </button>
-        ))
-      )}
+      </div>
     </div>
-    
-    <div className="mt-6 pt-5 border-t border-gray-50 text-center">
-      <button className="text-[11px] font-bold text-[#7c3aed] hover:underline uppercase tracking-wider">AI Insight Engine</button>
-    </div>
-  </div>
-);
+  );
+};
 
 export default SuggestionPanel;

@@ -155,6 +155,7 @@ const AIBoard = () => {
                     handleGenerate(node.name, pNode);
                   }}
                   onUpdateContent={onUpdateContent}
+                  isActive={activeSuggestionsNode?.id === node.id}
                 />
               </div>
             </foreignObject>
@@ -164,11 +165,12 @@ const AIBoard = () => {
 
       {activeSuggestionsNode && (
         <div 
-          className="fixed z-[200] animate-fade-in"
+          className="fixed z-[200] animate-fade-in pointer-events-none"
           style={{ 
-            left: (activeSuggestionsNode.x + 170) * transform.k + transform.x + 20,
+            left: (activeSuggestionsNode.x + 180) * transform.k + transform.x,
             top: activeSuggestionsNode.y * transform.k + transform.y,
-            transform: 'translateY(-50%)'
+            transform: `translateY(-50%) scale(${transform.k})`,
+            transformOrigin: 'left center'
           }}
         >
           <SuggestionPanel 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RefreshCw, X, Plus } from 'lucide-react';
 
-const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefresh, onUpdateContent }) => {
+const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefresh, onUpdateContent, isActive }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(node.content || "");
 
@@ -84,7 +84,7 @@ const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefre
       </div>
       
       {/* Plus button at right edge */}
-      {!node.isLoading && (
+      {!node.isLoading && !isActive && (
         <button 
           onClick={onShowSuggestions} 
           className="absolute right-[-14px] top-1/2 -translate-y-1/2 w-7 h-7 bg-white border border-[#e5e5e5] rounded-full flex items-center justify-center text-[#555] shadow-sm hover:text-black hover:border-[#111] transition-all z-20"
