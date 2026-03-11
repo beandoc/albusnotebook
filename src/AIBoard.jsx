@@ -136,11 +136,11 @@ const AIBoard = () => {
             <foreignObject 
               key={node.id} 
               className="node-group"
-              width="440" 
+              width="800" 
               height="800"
               style={{ pointerEvents: 'none', overflow: 'visible' }}
             >
-              <div className="pointer-events-auto flex flex-col items-center w-full">
+              <div className="relative pointer-events-auto flex flex-col items-center w-full h-full">
                 <NodeCard 
                   node={node} 
                   onRemove={() => {
@@ -160,7 +160,7 @@ const AIBoard = () => {
                 
                 {/* Embed SuggestionPanel INSIDE the tracked D3 group! */}
                 {activeSuggestionsNode?.id === node.id && (
-                  <div className="absolute left-[360px] top-[15px] z-[200] animate-fade-in pointer-events-auto origin-top-left">
+                  <div className="absolute left-[566px] top-[15px] z-[200] animate-fade-in pointer-events-auto origin-top-left">
                     <SuggestionPanel 
                       node={activeSuggestionsNode} 
                       onClose={() => setActiveSuggestionsNode(null)} 

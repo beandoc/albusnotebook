@@ -36,7 +36,7 @@ export const useCanvas = (nodes, links) => {
       // Direct DOM update instead of React state for performance
       d3.selectAll(".node-group")
         .data(simulationRef.current.nodes())
-        .attr("transform", d => `translate(${d.x - 170}, ${d.y - 150})`);
+        .attr("transform", d => `translate(${d.x - 400}, ${d.y - 150})`);
 
       d3.selectAll(".link-path")
         .data(simulationRef.current.force("link").links())
