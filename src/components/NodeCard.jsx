@@ -87,7 +87,7 @@ const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefre
       {!node.isLoading && !isActive && (
         <button 
           onClick={onShowSuggestions} 
-          className="absolute right-[-14px] top-1/2 -translate-y-1/2 w-7 h-7 bg-white border border-[#e5e5e5] rounded-full flex items-center justify-center text-[#555] shadow-sm hover:text-black hover:border-[#111] transition-all z-20"
+          className="absolute right-[-14px] top-1/2 -translate-y-1/2 w-7 h-7 bg-white border border-gray-400 rounded-full flex items-center justify-center text-black shadow-md hover:scale-110 transition-all z-[100] cursor-pointer pointer-events-auto"
         >
            <Plus size={14} />
         </button>
