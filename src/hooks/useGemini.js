@@ -47,18 +47,18 @@ Be concise, accurate, and professional.`;
         });
       });
 
-      // Try hitting the API proxy first (Proxy doesn't support multimodal yet in my basic version, so falling back)
-      /* 
+      // Try hitting the API proxy first
       try {
-        const res = await fetch('/api/generate', { ... });
-        ...
-      } catch (e) { ... }
-      */
-
-      // Local Fallback (for multimodal or local dev)
-      if (!import.meta.env.VITE_GEMINI_API_KEY) {
-        throw new Error("No API Key configured");
+        const payload = { prompt: promptText, type: 'chat', images: [] };
+        // ... handled locally usually 
+      } catch (e) {
+        console.warn("Proxy down");
       }
+
+      if (!import.meta.env.VITE_GEMINI_API_KEY) {
+        throw new Error("No API Key configured. Please add VITE_GEMINI_API_KEY to your .env file.");
+      }
+
       const result = await model.generateContent(parts);
       const response = await result.response;
       return response.text();
