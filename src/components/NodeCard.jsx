@@ -49,11 +49,11 @@ const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefre
       <div className={`w-[360px] rounded-[12px] overflow-hidden ${bodyBg} z-10 font-sans`}>
         
         {/* Header */}
-        <div className={`px-4 py-3 flex justify-between items-start ${headerBg} text-${textColor} relative`}>
-          <span className="font-bold text-[14px] leading-snug tracking-tight">
+        <div className={`px-4 py-3 flex justify-between items-start ${headerBg} text-[#111111] relative`}>
+          <span className="font-bold text-[14px] leading-snug tracking-tight pr-6 w-full text-left">
             {node.name}
           </span>
-          <button onClick={onRemove} className="text-[#111] opacity-50 hover:opacity-100 transition-opacity ml-2 shrink-0">
+          <button onClick={onRemove} className="absolute top-3 right-3 text-[#111] opacity-50 hover:opacity-100 transition-opacity">
              <X size={14} />
           </button>
         </div>
@@ -76,7 +76,7 @@ const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefre
               autoFocus
             />
           ) : (
-            <div className="whitespace-pre-wrap outline-none font-[400]" onDoubleClick={() => setIsEditing(true)}>
+            <div className="whitespace-pre-wrap break-words outline-none font-[400] w-full" onDoubleClick={() => setIsEditing(true)}>
               {node.content}
             </div>
           )}
