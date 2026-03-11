@@ -136,11 +136,11 @@ const AIBoard = () => {
             <foreignObject 
               key={node.id} 
               className="node-group"
-              width="360" 
+              width="440" 
               height="800"
-              style={{ pointerEvents: 'none' }}
+              style={{ pointerEvents: 'none', overflow: 'visible' }}
             >
-              <div className="pointer-events-auto flex flex-col items-center" onMouseDown={e => e.stopPropagation()}>
+              <div className="pointer-events-auto flex flex-col items-center w-full" onMouseDown={e => e.stopPropagation()}>
                 <NodeCard 
                   node={node} 
                   onRemove={() => {
