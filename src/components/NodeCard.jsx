@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { RefreshCw, X, Plus } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
-const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefresh, onUpdateContent, isActive }) => {
+const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefresh, onUpdateContent, isActive, isDarkMode }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(node.content || "");
 
@@ -37,47 +39,58 @@ const NodeCard = ({ node, onRemove, onShowSuggestions, onSubmitQuestion, onRefre
   }
   
   // Teal vs Yellow card colors
-  const isTeal = node.color === 'teal';
-  const headerBg = isTeal ? 'bg-[#98ebd9]' : 'bg-[#eec14d]';
-  const bodyBg = isTeal ? 'bg-[#e0fcf6]' : 'bg-[#fcedb3]';
-  const textColor = '#111111';
+  // The original teal/yellow color logic is replaced by the new dark mode logic below.
 
   return (
-    <div className="flex flex-col relative pointer-events-auto mt-6">
-      
-      {/* Node Content Box */}
-      <div className={`w-[360px] rounded-[12px] overflow-hidden ${bodyBg} z-10 font-sans`}>
-        
+    <div className={`
+      relative group flex flex-col w-[300px] rounded-[18px] border overflow-hidden transition-all duration-300
+      ${isActive ? 'ring-2 ring-purple-500 shadow-2xl' : 'shadow-lg'}
+      ${isDarkMode ? 'bg-[#1e1e1e] border-[#333]' : 'bg-white border-[#e5e5e5]'}
+    `}>
+      <div className="flex flex-col h-full">
         {/* Header */}
-        <div className={`px-4 py-3 flex justify-between items-start ${headerBg} text-[#111111] relative`}>
-          <span className="font-bold text-[14px] leading-snug tracking-tight pr-6 w-full text-left">
-            {node.name}
-          </span>
-          <button onClick={onRemove} className="absolute top-3 right-3 text-[#111] opacity-50 hover:opacity-100 transition-opacity">
-             <X size={14} />
-          </button>
+        <div className={`px-4 py-3 flex items-center justify-between border-b ${isDarkMode ? 'bg-[#252525] border-[#333]' : 'bg-[#fcfcfc] border-[#f0f0f0]'}`}>
+          <div className="flex items-center gap-2 max-w-[70%]">
+            <span className="text-[11px] font-bold text-black uppercase tracking-widest opacity-50 bg-black/5 px-1.5 py-0.5 rounded">
+              {node.type}
+            </span>
+            <h3 className={`text-[13px] font-bold truncate ${isDarkMode ? 'text-white' : 'text-black'}`}>{node.name}</h3>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={onRefresh} className={`p-1.5 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`}>
+              <RefreshCw size={14} />
+            </button>
+            <button onClick={onRemove} className={`p-1.5 rounded-full transition-colors ${isDarkMode ? 'hover:bg-red-500/20 text-gray-400' : 'hover:bg-red-50 text-gray-500'}`}>
+              <X size={14} />
+            </button>
+          </div>
         </div>
-        
+
         {/* Body */}
-        <div className="px-4 pb-5 pt-3 text-[14px] leading-relaxed text-[#111] max-h-[400px] overflow-y-auto scroll-elegant">
+        <div className={`px-4 pb-5 pt-3 text-[14px] leading-relaxed max-h-[400px] overflow-y-auto scroll-elegant ${isDarkMode ? 'text-gray-200' : 'text-[#111]'}`}>
           {node.isLoading ? (
             <div className="space-y-3 py-1">
-              <div className="h-2 bg-black/10 rounded-full w-full animate-pulse"></div>
-              <div className="h-2 bg-black/10 rounded-full w-[90%] animate-pulse delay-75"></div>
-              <div className="h-2 bg-black/10 rounded-full w-[95%] animate-pulse delay-150"></div>
-              <div className="h-2 bg-black/10 rounded-full w-[60%] animate-pulse delay-200"></div>
+              <div className={`h-2 rounded-full w-full animate-pulse ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
+              <div className={`h-2 rounded-full w-[90%] animate-pulse delay-75 ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
+              <div className={`h-2 rounded-full w-[95%] animate-pulse delay-150 ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
+              <div className={`h-2 rounded-full w-[60%] animate-pulse delay-200 ${isDarkMode ? 'bg-white/10' : 'bg-black/10'}`}></div>
             </div>
           ) : isEditing ? (
             <textarea 
-              className="w-full min-h-[150px] bg-transparent outline-none resize-none font-sans text-[14px]"
+              className={`w-full min-h-[150px] bg-transparent outline-none resize-none font-sans text-[14px] ${isDarkMode ? 'text-white' : 'text-black'}`}
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               onBlur={handleEditToggle}
               autoFocus
             />
           ) : (
-            <div className="whitespace-pre-wrap break-words outline-none font-[400] w-full" onDoubleClick={() => setIsEditing(true)}>
-              {node.content}
+            <div 
+              className={`prose prose-sm max-w-none prose-p:my-1 prose-headings:mb-2 prose-headings:mt-3 prose-ul:my-1 prose-li:my-0 font-[400] ${isDarkMode ? 'prose-invert text-gray-200' : 'text-[#111]'}`} 
+              onDoubleClick={() => setIsEditing(true)}
+            >
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {node.content}
+              </ReactMarkdown>
             </div>
           )}
         </div>

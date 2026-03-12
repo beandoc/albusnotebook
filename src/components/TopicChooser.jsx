@@ -2,7 +2,7 @@ import React from 'react';
 import { UploadCloud, MessageSquare, Map, Plus } from 'lucide-react';
 import { PRESET_TOPICS } from '../data/presetTopics';
 
-const TopicChooser = ({ query, setQuery, onGenerate, onSelectTopic, onFileUpload, isLoading }) => (
+const TopicChooser = ({ query, setQuery, onGenerate, onSelectTopic, onFileUpload, isLoading, recentBoards = [], recentConversations = [] }) => (
   <div className="absolute top-0 left-0 w-full h-full bg-[#f2ede6] z-50 flex items-center justify-center font-sans tracking-tight">
     
     <div className="w-full max-w-[1100px] px-8 flex justify-between items-start">
@@ -46,7 +46,7 @@ const TopicChooser = ({ query, setQuery, onGenerate, onSelectTopic, onFileUpload
       <div className="flex gap-6 mt-4">
         
         {/* Conversations Column */}
-        <div className="w-[300px] bg-[rgba(255,255,255,0.6)] rounded-[12px] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+        <div className="w-[300px] bg-[rgba(255,255,255,0.6)] rounded-[12px] p-5 shadow-[0_2px_8_rgba(0,0,0,0.02)]">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-2">
               <MessageSquare size={16} strokeWidth={2.5} className="text-[#111]" />
@@ -58,40 +58,57 @@ const TopicChooser = ({ query, setQuery, onGenerate, onSelectTopic, onFileUpload
           </div>
           
           <div className="flex flex-col gap-1">
-            <div className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md">
-              Skincare for Lupus Nephritis
-            </div>
-            <div className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md">
-              image
-            </div>
-            <div className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md">
-              image
-            </div>
+            {recentConversations.length > 0 ? (
+              recentConversations.map((conv, i) => (
+                <div key={i} className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md truncate">
+                  {conv.title}
+                </div>
+              ))
+            ) : (
+              <div className="py-8 text-center text-gray-400 text-xs font-medium italic">
+                No recent conversations
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Boards Column (Using Presets here) */}
-        <div className="w-[300px] bg-[rgba(255,255,255,0.6)] rounded-[12px] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+        {/* Boards Column */}
+        <div className="w-[300px] bg-[rgba(255,255,255,0.6)] rounded-[12px] p-5 shadow-[0_2px_8_rgba(0,0,0,0.02)]">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-2">
               <Map size={16} strokeWidth={2.5} className="text-[#111]" />
-              <h3 className="text-[15px] font-bold text-[#111]">Boards</h3>
+              <h3 className="text-[15px] font-bold text-[#111]">Recent Boards</h3>
             </div>
             <button className="text-[#111] hover:bg-[rgba(0,0,0,0.05)] rounded-md p-1">
               <Plus size={16} />
             </button>
           </div>
           
-          <div className="flex flex-col gap-1 overflow-y-auto max-h-[300px] scroll-elegant">
-            {PRESET_TOPICS.map(topic => (
-              <div 
-                key={topic.id}
-                onClick={() => onSelectTopic(topic)}
-                className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md truncate"
-              >
-                {topic.title.replace(/[^a-zA-Z\s]/g, '').trim()} Canvas
-              </div>
-            ))}
+          <div className="flex flex-col gap-1 overflow-y-auto max-h-[180px] scroll-elegant mb-4">
+             {recentBoards.length > 0 ? (
+               recentBoards.map((board, i) => (
+                <div key={board.id} onClick={() => onSelectTopic(board)} className="py-3 px-2 border-b border-[rgba(0,0,0,0.05)] text-[14px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md truncate">
+                  {board.title}
+                </div>
+               ))
+             ) : (
+               <div className="py-4 text-center text-gray-400 text-xs italic">No saved boards</div>
+             )}
+          </div>
+
+          <div className="pt-4 border-t border-[rgba(0,0,0,0.1)]">
+             <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-widest mb-3">Explore Templates</h3>
+             <div className="flex flex-col gap-1 overflow-y-auto max-h-[180px] scroll-elegant">
+                {PRESET_TOPICS.map(topic => (
+                  <div 
+                    key={topic.id}
+                    onClick={() => onSelectTopic(topic)}
+                    className="py-2 px-2 border-b border-[rgba(0,0,0,0.05)] text-[13px] font-medium text-[#111] cursor-pointer hover:bg-[rgba(255,255,255,0.5)] rounded-md truncate"
+                  >
+                    {topic.title.replace(/[^a-zA-Z\s]/g, '').trim()}
+                  </div>
+                ))}
+             </div>
           </div>
         </div>
 

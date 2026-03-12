@@ -1,11 +1,4 @@
 import { useState } from 'react';
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || "");
-const model = genAI.getGenerativeModel(
-  { model: "gemini-2.5-flash" }, 
-  { apiVersion: 'v1beta' }
-);
 
 export const useGemini = (sources) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,38 +25,28 @@ Be concise, accurate, and professional.`;
         ? `${systemInstruction}\n\n${sourceContext}\n\nContext from previous card: ${parentContent}\n\nQuestion: ${query}\n\nAnswer strictly using sources.`
         : `${systemInstruction}\n\n${sourceContext}\n\nTopic to explain: ${query}\n\nProvide a structured overview strictly grounded in the sources above.`;
       
-      // Prepare multimodal parts
-      const parts = [{ text: promptText }];
-      
-      // Add images if any
-      imageSources.forEach(img => {
-        const base64Data = img.content.split(',')[1];
-        const mimeType = img.content.split(',')[0].split(':')[1].split(';')[0];
-        parts.push({
-          inlineData: {
-            data: base64Data,
-            mimeType: mimeType
-          }
-        });
+      // Hit the Secure API Proxy
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          prompt: promptText, 
+          type: 'chat',
+          images: imageSources.map(img => ({
+            data: img.content.split(',')[1],
+            mimeType: img.content.split(',')[0].split(':')[1].split(';')[0]
+          }))
+        })
       });
 
-      // Try hitting the API proxy first
-      try {
-        const payload = { prompt: promptText, type: 'chat', images: [] };
-        // ... handled locally usually 
-      } catch (e) {
-        console.warn("Proxy down");
+      if (!response.ok) {
+        throw new Error("Failed to fetch from API proxy");
       }
 
-      if (!import.meta.env.VITE_GEMINI_API_KEY) {
-        throw new Error("No API Key configured. Please add VITE_GEMINI_API_KEY to your .env file.");
-      }
-
-      const result = await model.generateContent(parts);
-      const response = await result.response;
-      return response.text();
+      const data = await response.json();
+      return data.text;
     } catch (error) {
-      console.error("Gemini Error:", error);
+      console.error("Gemini Proxy Error:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -74,19 +57,33 @@ Be concise, accurate, and professional.`;
     setIsSuggesting(true);
     setSuggestions([]);
     try {
-      const prompt = `Context: ${node.content}\n\nTask: Generate 4 short, highly relevant follow-up questions or sub-topics for a patient training mind map about ${node.name}. Return ONLY a JSON array of strings. Example: ["How long is recovery?", "What are the diet restrictions?"]`;
+      // Logic from AIBoard turn: Check for preset suggestions first
+      if (node.presetSuggestions && node.presetSuggestions.length > 0) {
+        setSuggestions(node.presetSuggestions);
+        setIsSuggesting(false);
+        return node.presetSuggestions;
+      }
+
+      const prompt = `Context: ${node.content}\n\nTask: Generate 3 short, highly relevant follow-up questions or sub-topics for a patient training mind map about ${node.name}. Return ONLY a JSON array of strings. Example: ["How long is recovery?", "What are the diet restrictions?"]`;
       
-      // API Call
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
+      // Hit the Secure API Proxy
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, type: 'suggestions' })
+      });
+
+      if (!response.ok) throw new Error("Proxy failed");
+
+      const data = await response.json();
+      const text = data.text;
       const cleaned = text.replace(/```json|```/g, '').trim();
       const parsed = JSON.parse(cleaned);
       setSuggestions(parsed);
       return parsed;
     } catch (e) {
       console.error("Suggestion error:", e);
-      const fallback = ["What are the risks?", "How long does it take?", "What is the success rate?", "Is it painful?"];
+      const fallback = ["What are the risks?", "How long does it take?", "What is the success rate?"];
       setSuggestions(fallback);
       return fallback;
     } finally {

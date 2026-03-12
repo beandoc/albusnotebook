@@ -16,9 +16,14 @@ const TopNavBar = ({
   isLoading, 
   onClearBoard,
   zoomPercent,
-  isApiKeyMissing
+  isApiKeyMissing,
+  onHome,
+  onUndo,
+  onExport,
+  isDarkMode,
+  toggleDarkMode
 }) => (
-  <div className="fixed top-0 left-0 right-0 h-12 bg-[#000000] text-white flex items-center justify-between px-4 z-[100]">
+  <div className={`fixed top-0 left-0 right-0 h-12 ${isDarkMode ? 'bg-[#1a1a1a] border-b border-white/5' : 'bg-black'} text-white flex items-center justify-between px-4 z-[100] transition-colors duration-300`}>
     <div className="flex items-center gap-4 text-xs shrink-0 font-medium tracking-wide">
       <div className="flex items-center gap-2">
         {/* Albus Logo Mock */}
@@ -57,7 +62,7 @@ const TopNavBar = ({
        {/* Albus center nav icons */}
     </nav>
     <div className="absolute left-[calc(50%-180px)] top-2 flex bg-[#1a1a1a] rounded-lg p-0.5 gap-0.5">
-       <button className="w-9 h-7 flex items-center justify-center text-white bg-[#333] rounded-md"><Home size={14} /></button>
+       <button onClick={onHome} className="w-9 h-7 flex items-center justify-center text-white bg-[#333] rounded-md hover:bg-[#444] transition-colors"><Home size={14} /></button>
        <button className="w-9 h-7 flex items-center justify-center text-gray-400 hover:text-white"><MessageSquare size={14} /></button>
        <button className="w-9 h-7 flex items-center justify-center bg-[#7c3aed] text-white rounded-md"><Layout size={14} /></button>
        <button className="w-9 h-7 flex items-center justify-center text-gray-400 hover:text-white"><Folder size={14} /></button>
@@ -65,8 +70,8 @@ const TopNavBar = ({
 
     <div className="flex items-center gap-5 text-[12px] font-medium shrink-0">
       <div className="flex gap-3 text-gray-400">
-        <Undo2 size={15} className="cursor-pointer hover:text-white" />
-        <RefreshCw size={15} className="cursor-pointer hover:text-white" />
+        <Undo2 size={15} className="cursor-pointer hover:text-white" onClick={onUndo} title="Undo" />
+        <RefreshCw size={15} className="cursor-pointer hover:text-white" title="Refresh" />
       </div>
       <div className="flex items-center gap-1.5 cursor-pointer text-gray-200 hover:text-white">
         <span>G2.5 Flash</span> <ChevronDown size={12} className="text-gray-400" />
@@ -75,11 +80,11 @@ const TopNavBar = ({
       <div className="h-3 w-[1px] bg-gray-700 mx-1"></div>
       
       <div className="flex gap-3 text-gray-400 items-center">
-        <ListVideo size={16} className="cursor-pointer hover:text-white" />
-        <Download size={16} className="cursor-pointer hover:text-white" />
-        <Moon size={16} className="cursor-pointer hover:text-white" />
-        <Music size={16} className="cursor-pointer hover:text-white" />
-        <Settings size={16} className="cursor-pointer hover:text-white" />
+        <ListVideo size={16} className="cursor-pointer hover:text-white" title="Video" />
+        <Download size={16} className="cursor-pointer hover:text-white" onClick={onExport} title="Export Board" />
+        <Moon size={16} className={`cursor-pointer hover:text-white ${isDarkMode ? 'text-purple-400' : ''}`} onClick={toggleDarkMode} title="Toggle Dark Mode" />
+        <Music size={16} className="cursor-pointer hover:text-white" title="Audio" />
+        <Settings size={16} className="cursor-pointer hover:text-white" title="Settings" />
         <UserCircle size={18} className="cursor-pointer text-gray-200" />
         
         <div className="flex items-center gap-2 ml-2">
