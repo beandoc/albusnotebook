@@ -24,7 +24,8 @@ Chronic Kidney Disease (CKD) is a progressive journey, but with the right knowle
 - **Failure Stage (5):** Evaluating dialysis and transplant options.
 
 Use the **+** button to explore specific stages or slowing strategies.`,
-        suggestions: ['What are the 5 stages of CKD?', 'How can I slow down kidney disease?', 'What lifestyle changes are most effective?']
+        suggestions: ['What are the 5 stages of CKD?', 'How can I slow down kidney disease?', 'What lifestyle changes are most effective?'],
+        imageUrl: 'https://images.unsplash.com/photo-1576091160550-217359f49f4c?auto=format&fit=crop&w=800&q=80'
       },
       {
         query: 'What are the 5 stages of CKD?',
@@ -35,7 +36,8 @@ Use the **+** button to explore specific stages or slowing strategies.`,
 3. **Stage 3 (GFR 30-59):** Moderate loss. This is often when symptoms appear.
 4. **Stage 4 (GFR 15-29):** Severe loss. Preparation for kidney failure treatments begins.
 5. **Stage 5 (GFR <15):** Kidney Failure. Dialysis or transplant is required.`,
-        suggestions: ['Is Stage 3 reversible?', 'What is eGFR?', 'How to stay in Stage 2?']
+        suggestions: ['Is Stage 3 reversible?', 'What is eGFR?', 'How to stay in Stage 2?'],
+        imageUrl: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80'
       },
       {
         query: 'How can I slow down kidney disease?',
@@ -46,16 +48,8 @@ Use the **+** button to explore specific stages or slowing strategies.`,
 - **Avoid NSAIDs:** Stay away from Ibuprofen/Naproxen as they are toxic to kidneys.
 - **Low Salt Intake:** Less than 2g of sodium per day reduces kidney strain.
 - **Regular Check-ups:** Monitor your Creatinine and Urine Protein levels monthly.`,
-        suggestions: ['List of kidney-safe painkillers', 'Blood pressure targets', 'Daily sodium guide']
-      },
-      {
-        query: 'What lifestyle changes are most effective?',
-        content: `Top 3 lifestyle modifications for CKD patients:
-
-1. **The Renal Diet:** Focus on low sodium, controlled potassium, and moderate protein.
-2. **Hydration Balance:** Drinking enough but not over-loading if you have swelling.
-3. **Physical Activity:** 30 minutes of light walking daily improves blood flow and reduces BP.`,
-        suggestions: ['Renal diet basics', 'How much water should I drink?', 'Safe exercises for CKD']
+        suggestions: ['List of kidney-safe painkillers', 'Blood pressure targets', 'Daily sodium guide'],
+        imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80'
       }
     ],
     sources: [
@@ -526,6 +520,415 @@ The rationale and technique change if the kidney is your own or a donor organ.`,
 - Contraindications: High BP and bleeding disorders.
 - Post-op: 6-8 hours of strict bed rest.`,
         size: '4.2 KB'
+      }
+    ]
+  },
+  {
+    id: 'aki-deep-dive',
+    title: '⚡ Acute Kidney Injury (AKI)',
+    description: 'A comprehensive guide to sudden kidney failure: causes, staging, diagnosis, and emergency management.',
+    icon: '⚡',
+    color: 'yellow',
+    initialQuery: 'Explain Acute Kidney Injury (AKI) and its significance.',
+    suggestedQueries: [
+      'Definition & Staging (The "What")',
+      'Prerenal AKI (The "Flow" Problem)',
+      'Intrinsic AKI (The "Filter" Problem)',
+      'Postrenal AKI (The "Plumbing" Problem)',
+      'Diagnostic Workup (The "Investigation")',
+      'Emergency Management (The "Fix")',
+      'Novel Biomarkers (The "Early Warning")',
+      'Pharmacological Management (The "Balancing Act")',
+      'Systemic Cross-Talk (The "Domino Effect")',
+      'Prognosis & Transition to CKD'
+    ],
+    presetData: [
+      {
+        query: 'Explain Acute Kidney Injury (AKI) and its significance.',
+        content: `### Acute Kidney Injury (AKI)
+        
+A sudden, rapid decline in kidney function (occurring over hours to days) that leads to an accumulation of nitrogenous waste products in the blood (uremia) and an inability to maintain fluid and electrolyte balance.`,
+        suggestions: ['Definition & Staging (The "What")', 'Prerenal AKI (The "Flow" Problem)', 'Intrinsic AKI (The "Filter" Problem)', 'Novel Biomarkers (The "Early Warning System")'],
+        imageUrl: 'https://images.unsplash.com/photo-1530026405186-ed1f13931151?auto=format&fit=crop&w=800&q=80'
+      },
+      // Branch 1: Staging
+      {
+        query: 'Definition & Staging (The "What")',
+        content: `AKI is diagnosed and staged using the internationally recognized **KDIGO Criteria**, based on two main parameters: **Serum Creatinine (sCr)** and **Urine Output (UO)**.`,
+        suggestions: ['Stage 1 (Mild)', 'Stage 2 (Moderate)', 'Stage 3 (Severe)'],
+        imageUrl: 'https://images.unsplash.com/photo-1579152276503-3467614f85e1?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Stage 1 (Mild)',
+        content: `**Stage 1 Definition:**
+- **sCr:** Increases by 1.5–1.9 times baseline OR increases by $\ge$ 0.3 mg/dL within 48 hours.
+- **Urine Output:** $< 0.5$ mL/kg/hr for 6–12 hours.`,
+        suggestions: ['How to calculate Baseline sCr?', 'Wait-and-watch protocol']
+      },
+      {
+        query: 'Stage 2 (Moderate)',
+        content: `**Stage 2 Definition:**
+- **sCr:** Increases to 2.0–2.9 times baseline.
+- **Urine Output:** $< 0.5$ mL/kg/hr for $\ge$ 12 hours.`,
+        suggestions: ['Critical care interventions', 'Is Stage 2 reversible?']
+      },
+      {
+        query: 'Stage 3 (Severe)',
+        content: `**Stage 3 Definition:**
+- **sCr:** Increases to 3.0 times baseline OR sCr $\ge$ 4.0 mg/dL OR initiation of Renal Replacement Therapy (Dialysis).
+- **Urine Output:** $< 0.3$ mL/kg/hr for $\ge$ 24 hours or **Anuria** (no urine) for $\ge$ 12 hours.`,
+        suggestions: ['Emergency Dialysis criteria']
+      },
+      // Branch 2: Prerenal
+      {
+        query: 'Prerenal AKI (The "Flow" Problem)',
+        content: `The most common cause of AKI (60-70%). The kidneys are structurally healthy, but they are starving for blood flow (**hypoperfusion**).`,
+        suggestions: ['Absolute Fluid Loss (Hypovolemia)', 'Decreased Effective Circulation', 'Altered Renal Hemodynamics'],
+        imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Absolute Fluid Loss (Hypovolemia)',
+        content: `Severe dehydration (vomiting, diarrhea), massive hemorrhage (trauma, GI bleed), or extensive burns. The pump is working, but there's no "gas" in the tank.`,
+        suggestions: ['Fluid resuscitation guide', 'IV Fluids for AKI']
+      },
+      {
+        query: 'Decreased Effective Circulation',
+        content: `The body has enough fluid, but it isn't pumping effectively to the kidneys. Seen in **Congestive Heart Failure (CHF)**, severe liver disease (**Hepatorenal Syndrome**), or **Sepsis** (massive vasodilation).`,
+        suggestions: ['CHF management in AKI', 'Hepatorenal Syndrome']
+      },
+      {
+        query: 'Altered Renal Hemodynamics',
+        content: `Medications that mess with the kidney's auto-regulation.
+- **NSAIDs:** Constrict the incoming (afferent) arteriole.
+- **ACE Inhibitors/ARBs:** Dilate the outgoing (efferent) arteriole, dropping the filtration pressure.`,
+        suggestions: ['When to stop Lisinopril?', 'NSAID toxicity']
+      },
+      // Branch 3: Intrinsic
+      {
+        query: 'Intrinsic AKI (The "Filter" Problem)',
+        content: `Direct structural damage to the kidney parenchyma (the actual filtering and tubule tissues).`,
+        suggestions: ['Acute Tubular Necrosis (ATN)', 'Acute Interstitial Nephritis (AIN)', 'Glomerulonephritis (GN)'],
+        imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Acute Tubular Necrosis (ATN)',
+        content: `Accounts for 85% of intrinsic AKI. Tubule cells die and slough off due to prolonged ischemia (untreated prerenal AKI) or nephrotoxins (contrast dye, aminoglycoside antibiotics, myoglobin from crush injuries).`,
+        suggestions: ['Contrast-induced AKI', 'Casts in ATN']
+      },
+      {
+        query: 'Acute Interstitial Nephritis (AIN)',
+        content: `An allergic/inflammatory reaction in the kidney tissue, usually triggered by drugs (PPIs, Penicillins, NSAIDs) or infections. Often presents with a **rash, fever, and eosinophils** in the urine.`,
+        suggestions: ['PPI-induced AIN', 'Biopsy for AIN']
+      },
+      {
+        query: 'Glomerulonephritis (GN)',
+        content: `Autoimmune or inflammatory damage to the glomeruli (the actual filter). Examples include Lupus Nephritis, Anti-GBM disease, or Post-streptococcal GN.`,
+        suggestions: ['Explaining Glomerulonephritis', 'GN Lab markers']
+      },
+      // Branch 4: Postrenal
+      {
+        query: 'Postrenal AKI (The "Plumbing" Problem)',
+        content: `An obstruction in the urinary tract that prevents urine from leaving the body, causing back-pressure that damages the kidneys. Accounts for 5-10% of AKI.`,
+        suggestions: ['Ureteric Obstruction', 'Bladder Neck Obstruction', 'Urethral Obstruction'],
+        imageUrl: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Ureteric Obstruction',
+        content: `Must be bilateral (blocking both kidneys) to cause AKI, unless the patient only has one working kidney. Caused by large kidney stones or tumors compressing the ureters.`,
+        suggestions: ['Stones and Obstruction', 'Kidney Stent procedures']
+      },
+      {
+        query: 'Bladder Neck Obstruction',
+        content: `The most common postrenal cause in older men. Usually due to **Benign Prostatic Hyperplasia (BPH)** or prostate cancer blocking the exit of the bladder.`,
+        suggestions: ['BPH symptoms', 'Alpha-blocker therapy']
+      },
+      {
+        query: 'Urethral Obstruction',
+        content: `Blockages further down the line, such as strictures (scar tissue), blood clots, or a blocked Foley catheter.`,
+        suggestions: ['Troubleshooting catheters', 'Urethral strictures']
+      },
+      // Branch 5: Diagnostics
+      {
+        query: 'Diagnostic Workup (The "Investigation")',
+        content: `Differentiating between Prerenal, Intrinsic, and Postrenal is critical for treatment.`,
+        suggestions: ['BUN:Cr Ratio & FENa', 'Urine Microscopy', 'Renal Ultrasound'],
+        imageUrl: 'https://images.unsplash.com/photo-1551288049-bbbda536ad37?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'BUN:Cr Ratio & FENa',
+        content: `**Biochemical Differentiators:**
+- **Prerenal:** BUN:Cr ratio is **> 20:1**. Fractional Excretion of Sodium (FENa) is **< 1%** (kidneys holding salt to boost volume).
+- **Intrinsic (ATN):** BUN:Cr ratio is **< 15:1**. FENa is **> 2%** (damaged tubules can't hold salt).`,
+        suggestions: ['How to calculate FENa', 'Why BUN rises in prerenal?']
+      },
+      {
+        query: 'Urine Microscopy',
+        content: `The "Liquid Biopsy" - looking for cellular molds (**casts**):
+- **Hyaline Casts:** Prerenal (concentrated urine).
+- **Muddy Brown Granular Casts:** ATN (dead tubule cells).
+- **White Blood Cell (WBC) Casts:** AIN or Pyelonephritis.
+- **Red Blood Cell (RBC) Casts:** Glomerulonephritis.`,
+        suggestions: ['Seeing Casts under the microscope']
+      },
+      {
+        query: 'Renal Ultrasound',
+        content: `The fastest way to rule out Postrenal AKI. It looks for **Hydronephrosis** (swelling of the kidney due to backed-up urine).`,
+        suggestions: ['Hydronephrosis grading', 'Ureteric stones on US']
+      },
+      // Branch 6: Management
+      {
+        query: 'Emergency Management (The "Fix")',
+        content: `Treatment depends on the cause: give fluids for prerenal, relieve obstruction for postrenal, stop toxins for intrinsic. Severe AKI requires immediate intervention.`,
+        suggestions: ['The "AEIOU" Criteria for Urgent Dialysis', 'Pharmacological Management (The "Balancing Act")', 'Systemic Cross-Talk (The "Domino Effect")'],
+        imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'The "AEIOU" Criteria for Urgent Dialysis',
+        content: `Indications to start emergency hemodialysis:
+- **A (Acidosis):** Severe metabolic acidosis (pH < 7.1).
+- **E (Electrolytes):** Refractory hyperkalemia.
+- **I (Intoxications):** Lithium, Aspirin, Methanol overdose.
+- **O (Overload):** Pulmonary edema resistant to diuretics.
+- **U (Uremia):** Confusion, coma, or pericarditis.`,
+        suggestions: ['How Dialysis works', 'Managing Hyperkalemia']
+      },
+      // BRANCH 7: Novel Biomarkers
+      {
+        query: 'Novel Biomarkers (The "Early Warning System")',
+        content: `### Early Warning System
+        
+Serum creatinine is a flawed marker because it lags 24–48 hours behind actual kidney injury. Novel biomarkers aim to detect renal "stress" or structural damage within hours, much like Troponin does for a heart attack.`,
+        suggestions: ['Cell Cycle Arrest Markers (NephroCheck)', 'NGAL (Rapid Stress Marker)', 'KIM-1 (Intrinsic Specific)'],
+        imageUrl: 'https://images.unsplash.com/photo-1579152438481-678508f75355?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Cell Cycle Arrest Markers (NephroCheck)',
+        content: `Tests for **TIMP-2** and **IGFBP7** in the urine. When kidney tubule cells are stressed (e.g., by low oxygen), they hit the "pause button" on cell division (G1 cell cycle arrest) to avoid dividing while damaged. High levels indicate imminent risk of severe AKI.`,
+        suggestions: ['What is G1 Arrest?', 'Clinical use of NephroCheck']
+      },
+      {
+        query: 'NGAL (Rapid Stress Marker)',
+        content: `**NGAL (Neutrophil Gelatinase-Associated Lipocalin):** A protein rapidly upregulated by the kidney within 2–6 hours of ischemic or toxic injury. It can be measured in both blood and urine to detect Acute Tubular Necrosis (ATN) before creatinine ever moves.`,
+        suggestions: ['NGAL vs Creatinine timeline', 'Accuracy in Sepsis']
+      },
+      {
+        query: 'KIM-1 (Intrinsic Specific)',
+        content: `**KIM-1 (Kidney Injury Molecule-1):** A transmembrane protein not normally found in healthy kidneys. It is heavily expressed on the surface of proximal tubule cells specifically during ischemic or nephrotoxic injury, making it a highly specific marker for intrinsic AKI.`,
+        suggestions: ['Detecting Chronic Injury', 'KIM-1 in Drug Trials']
+      },
+      // BRANCH 8: Pharmacological Management
+      {
+        query: 'Pharmacological Management (The "Balancing Act")',
+        content: `While waiting for the kidneys to heal, doctors must aggressively manage the life-threatening metabolic derangements caused by kidney failure.`,
+        suggestions: ['The Hyperkalemia Protocol', 'Fluid Resuscitation vs. Overload', 'Acid-Base Management'],
+        imageUrl: 'https://images.unsplash.com/photo-1587854692152-cbe660dbbb88?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'The Hyperkalemia Protocol',
+        content: `Kidneys excrete 90% of the body's potassium. In AKI, it builds up and can cause fatal cardiac arrhythmias.
+        
+1. **Stabilize (Heart):** IV Calcium Gluconate.
+2. **Shift (Potassium):** IV Insulin + Dextrose, or Albuterol.
+3. **Remove:** Potassium-binding resins (Lokelma) or emergent Hemodialysis.`,
+        suggestions: ['Stabilize vs Shift vs Remove', 'ECG signs of Hyperkalemia']
+      },
+      {
+        query: 'Fluid Resuscitation vs. Overload',
+        content: `Prerenal AKI needs fluids, but if it transitions to ATN, the kidneys stop making urine. Giving more IV fluids at this stage causes fluid to back up into the lungs (**Pulmonary Edema**). 
+
+**Loop diuretics (Furosemide)** are used to treat volume overload, not to "force" the kidneys to work.`,
+        suggestions: ['Fluid responsiveness signs', 'The "Stress Test" with Lasix']
+      },
+      {
+        query: 'Acid-Base Management',
+        content: `The kidneys fail to excrete daily metabolic acids. If the blood becomes severely acidic ($pH < 7.1$), IV Sodium Bicarbonate is carefully administered as a bridge to dialysis.`,
+        suggestions: ['The Bicarbonate calculation', 'When to Dialyze for Acidosis']
+      },
+      // BRANCH 9: Systemic Cross-Talk
+      {
+        query: 'Systemic Cross-Talk (The "Domino Effect")',
+        content: `AKI does not happen in isolation. The sudden loss of kidney function triggers inflammatory cascades that damage distant organs.`,
+        suggestions: ['Cardiorenal Syndrome (Type 3)', 'Uremic Encephalopathy', 'Immune System Paralysis'],
+        imageUrl: 'https://images.unsplash.com/photo-1530213786676-dc3625727786?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Cardiorenal Syndrome (Type 3)',
+        content: `Acute kidney injury directly causes acute heart failure. Uremic toxins depress heart muscle contractility, and fluid overload stretches the heart walls, leading to reduced cardiac output and arrhythmias.`,
+        suggestions: ['Brain Natriuretic Peptide (BNP)', 'Treatment of CR3']
+      },
+      {
+        query: 'Uremic Encephalopathy',
+        content: `Nitrogenous waste products cross the blood-brain barrier. Symptoms range from mild confusion and lethargy to **"asterixis"** (a characteristic flapping tremor of the hands) and potentially fatal seizures.`,
+        suggestions: ['What is Asterixis?', 'Urgency of Dialysis']
+      },
+      {
+        query: 'Immune System Paralysis',
+        content: `Uremia severely impairs white blood cell function (specifically neutrophils and macrophages). This makes patients with AKI highly susceptible to hospital-acquired infections, a leading cause of death.`,
+        suggestions: ['Sepsis and AKI loop', 'WBC dysfunction']
+      },
+      // BRANCH 10: Prognosis
+      {
+        query: 'Prognosis & The Transition to CKD',
+        content: `### Timeline of Recovery
+        
+The kidneys have an incredible capacity to regenerate, but the repair process is not always perfect. Recovery can be measured in phases and long-term risk assessments.`,
+        suggestions: ['The Diuretic Phase of Recovery', 'Acute Kidney Disease (AKD)', 'Maladaptive Repair & Fibrosis'],
+        imageUrl: 'https://images.unsplash.com/photo-1454165833267-028a04595fa8?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'The Diuretic Phase of Recovery',
+        content: `As dead tubule cells regenerate, they clear the obstruction but cannot yet concentrate urine. Patients urinate massive volumes (up to 4–5 Liters a day), risking secondary dehydration and electrolyte loss.`,
+        suggestions: ['Volume management in Recovery', 'Electrolyte monitoring']
+      },
+      {
+        query: 'Acute Kidney Disease (AKD)',
+        content: `A clinical "gray zone" between days 7 and 90 post-injury. If kidney function has not returned to baseline within 7 days, the patient has **AKD**. This is a critical window for intervention.`,
+        suggestions: ['The 90-day window', 'AKD vs CKD']
+      },
+      {
+        query: 'Maladaptive Repair & Fibrosis',
+        content: `If the injury is severe or repetitive, kidneys heal with scar tissue (**interstitial fibrosis**) rather than functional cells. ~25% of severe AKI survivors permanently lose function, transitioning to **CKD** after 90 days.`,
+        suggestions: ['Predicting the transition', 'Protective strategies post-AKI']
+      }
+    ],
+    sources: [
+      { 
+        id: 'aki-handbook',
+        name: 'source_nirogyams_aki.txt', 
+        content: `AKI (formerly ARF) is a sudden drop in GFR. 
+        - Diagnosis: KDIGO Staging (sCr and Urine Output).
+        - 3 Types: Prerenal (60%), Intrinsic (30%), Postrenal (10%).
+        - Urgent Dialysis: AEIOU criteria.
+        - FENa: <1% is Prerenal, >2% is ATN.`,
+        size: '3.5 KB'
+      }
+    ]
+  },
+  {
+    id: 'aki-patient-guide',
+    title: '📘 AKI: A Simple Guide',
+    description: 'A patient-friendly explanation of what happens when kidneys suddenly stop working and how they heal.',
+    icon: '📘',
+    color: 'teal',
+    initialQuery: 'What is Acute Kidney Injury? (Simple Explanation)',
+    suggestedQueries: [
+      'The Three Main Causes (Why did this happen?)',
+      'Real-Life Scenario: Severe Infection (Sepsis)',
+      'How We Fix It (The Treatment Plan)',
+      'Moving Forward (Life After AKI)'
+    ],
+    presetData: [
+      {
+        query: 'What is Acute Kidney Injury? (Simple Explanation)',
+        content: `### Understanding Acute Kidney Injury (AKI)
+        
+Acute Kidney Injury means your kidneys have suddenly stopped working as well as they should. Think of your kidneys as the body’s natural water filters. When they are injured, they can't clean your blood or get rid of extra water. 
+
+**The good news?** With the right care, they can often heal.`,
+        suggestions: ['The Three Main Causes (Why did this happen?)', 'How We Fix It (The Treatment Plan)'],
+        imageUrl: 'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=800&q=80'
+      },
+      // Branch 1: Causes
+      {
+        query: 'The Three Main Causes (Why did this happen?)',
+        content: `To fix the kidneys, we first have to figure out where the problem is. We look at three main areas: the blood flow going in, the filter itself, or the plumbing going out.`,
+        suggestions: ['The "Blood Flow" Problem (Prerenal)', 'The "Filter" Problem (Intrinsic)', 'The "Plumbing" Problem (Postrenal)'],
+        imageUrl: 'https://images.unsplash.com/photo-1576091160611-259c093fad7b?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'The "Blood Flow" Problem (Prerenal)',
+        content: `Your kidneys need a strong, steady flow of blood to work. If you get severely dehydrated, lose blood, or have low blood pressure, the kidneys get "thirsty" and can't do their job.`,
+        suggestions: ['What causes low blood pressure?', 'Signs of dehydration']
+      },
+      {
+        query: 'The "Filter" Problem (Intrinsic)',
+        content: `Sometimes the kidney tissue itself gets bruised or damaged. This can happen from certain strong medications, dye used in X-rays, or a severe illness that attacks the kidney cells directly.`,
+        suggestions: ['Medications to avoid', 'X-ray dye safety']
+      },
+      {
+        query: 'The "Plumbing" Problem (Postrenal)',
+        content: `If your kidneys are making urine but it can't leave your body, the urine backs up and causes pressure. This is usually caused by a blockage, like a kidney stone or an enlarged prostate.`,
+        suggestions: ['Symptoms of kidney stones', 'Enlarged prostate basics']
+      },
+      // Branch 2: Sepsis Scenario
+      {
+        query: 'Real-Life Scenario: Severe Infection (Sepsis)',
+        content: `One of the most common reasons people get AKI in the hospital is from a severe infection, like pneumonia or a bad urinary tract infection.`,
+        suggestions: ['The Blood Pressure Drop', 'The Kidneys Go to "Sleep"', 'The Toxin Buildup'],
+        imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'The Blood Pressure Drop',
+        content: `When your body fights a huge infection, your blood vessels open up wide, causing your blood pressure to drop fast. Your kidneys suddenly aren't getting enough oxygen.`,
+        suggestions: ['How doctors raise blood pressure']
+      },
+      {
+        query: 'The Kidneys Go to "Sleep"',
+        content: `To survive the lack of oxygen, your kidney cells essentially go into **hibernation**. Because they are resting, you might stop making urine entirely. This is a survival mechanism.`,
+        suggestions: ['Will they wake up?']
+      },
+      {
+        query: 'The Toxin Buildup',
+        content: `While the kidneys are "asleep," normal daily waste products and extra water start building up in your blood. This can make you feel confused, tired, or swollen.`,
+        suggestions: ['Signs of fluid buildup']
+      },
+      // Branch 3: Treatment
+      {
+        query: 'How We Fix It (The Treatment Plan)',
+        content: `Our primary goal is to support your body while giving your kidneys the time and environment they need to wake up and heal.`,
+        suggestions: ['Fluids and Medications', 'An Artificial Helper (Dialysis)', 'The "Waking Up" Phase'],
+        imageUrl: 'https://images.unsplash.com/photo-1519494140681-891f9302ca48?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Fluids and Medications',
+        content: `If you are dehydrated, we will give you IV fluids. If your blood pressure is too low, we will give you medicines to gently squeeze your blood vessels and push blood back into your kidneys.`,
+        suggestions: ['Common IV fluids', 'Blood pressure supports']
+      },
+      {
+        query: 'An Artificial Helper (Dialysis)',
+        content: `If your kidneys need total rest, or if dangerous wastes are building up too fast, we use a dialysis machine. Think of it as an **artificial kidney** that temporarily cleans your blood for you until your own kidneys recover.`,
+        suggestions: ['How does the machine work?', 'Is it permanent?']
+      },
+      {
+        query: 'The "Waking Up" Phase',
+        content: `As your kidneys heal, they will start making urine again. Sometimes, they make too much urine at first because they are still a bit clumsy. We will watch your fluid levels very closely during this time.`,
+        suggestions: ['Monitoring recovery']
+      },
+      // Branch 4: Recovery
+      {
+        query: 'Moving Forward (Life After AKI)',
+        content: `The kidneys are amazing organs that can often repair themselves, but we need to keep a close eye on them even after you feel better.`,
+        suggestions: ['Full Recovery', 'Protecting Your Kidneys', 'Long-Term Checkups'],
+        imageUrl: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        query: 'Full Recovery',
+        content: `Many patients regain their normal kidney function. It might take a few weeks or even a few months for them to get fully back to normal.`,
+        suggestions: ['The timeline of healing']
+      },
+      {
+        query: 'Protecting Your Kidneys',
+        content: `Moving forward, you will need into protect your kidneys. 
+- Drink plenty of water.
+- Avoid certain over-the-counter painkillers like **Ibuprofen (Advil/Motrin)**.
+- Keep your blood pressure under control.`,
+        suggestions: ['Safe painkiller alternatives']
+      },
+      {
+        query: 'Long-Term Checkups',
+        content: `Sometimes, a severe AKI leaves behind a little bit of microscopic scar tissue. We will schedule regular, simple blood tests to make sure your kidneys stay healthy for years to come.`,
+        suggestions: ['What tests do I need?']
+      }
+    ],
+    sources: [
+      { 
+        id: 'patient-handbook-aki',
+        name: 'patient_guide_aki.txt', 
+        content: `AKI is a sudden but often reversible loss of kidney function. 
+        - Causes: Poor flow, blockage, or direct injury.
+        - Treatment: Support your body while the kidneys "sleep."
+        - Recovery: Vigilance with labs and avoiding kidney-toxic drugs like Ibuprofen.`,
+        size: '2.2 KB'
       }
     ]
   }

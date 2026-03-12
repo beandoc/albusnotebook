@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 // Components
 import TopNavBar from './components/TopNavBar';
@@ -22,6 +23,7 @@ const AIBoard = () => {
   const [showInitial, setShowInitial] = useState(true);
   const [activeSuggestionsNode, setActiveSuggestionsNode] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isCounselingMode, setIsCounselingMode] = useState(false);
   const [history, setHistory] = useState([]);
 
   const fileInputRef = useRef(null);
@@ -55,7 +57,7 @@ const AIBoard = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleGenerate = async (customQuery = null, parentNode = null, presetData = null) => {
+  const handleGenerate = async (customQuery = null, parentNode = null, presetDataParams = null) => {
     const activeText = customQuery || query;
     if (!activeText.trim()) return;
     
@@ -70,30 +72,28 @@ const AIBoard = () => {
       id: queryId,
       type: 'query',
       name: activeText,
-      x: parentNode ? parentNode.x + 400 : window.innerWidth / 2 - 200,
-      y: parentNode ? parentNode.y : window.innerHeight / 2,
+      x: parentNode ? (parentNode.x + 240) : (window.innerWidth / 2 - 300),
+      y: parentNode ? (parentNode.y + (Math.random() - 0.5) * 50) : (window.innerHeight / 2 - 100),
     };
 
     // 2. Create Response Node (Thinking state or Preset)
     let initialContent = "Thinking...";
     let initialLoading = true;
     let initialSuggestions = null;
+    let initialImageUrl = null;
 
-    if (presetData) {
-      // Logic: Search for content match in the presetData array
-      const match = (presetData.presetData || []).find(p => p.query === activeText);
+    // Use parent's presetData if we are branching from it
+    const activePresetData = presetDataParams || parentNode?.presetData || null;
+
+    if (activePresetData) {
+      // Search for content match in the presetData array
+      const presetArray = Array.isArray(activePresetData) ? activePresetData : activePresetData.presetData;
+      const match = (presetArray || []).find(p => p.query === activeText);
       if (match) {
         initialContent = match.content;
         initialLoading = false;
         initialSuggestions = match.suggestions;
-      } else if (presetData.content) {
-        // Direct support for legacy preset objects
-        initialContent = presetData.content;
-        initialLoading = false;
-        initialSuggestions = presetData.suggestions;
-      } else if (presetData.suggestions) {
-        // Carry forward suggestions even if no content match found
-        initialSuggestions = presetData.suggestions;
+        initialImageUrl = match.imageUrl;
       }
     }
 
@@ -101,13 +101,15 @@ const AIBoard = () => {
       id: responseId,
       type: 'response',
       name: activeText,
-      x: queryNode.x + 400, // Reduced nudge to prevent overlap
+      title: activeText, // Added explicit title
+      x: queryNode.x + 100, // Minimal nudge, let D3 handle the spread
       y: queryNode.y,
       color: parentNode ? 'yellow' : 'teal',
       content: initialContent,
       isLoading: initialLoading,
       presetSuggestions: initialSuggestions,
-      presetData: presetData?.presetData || parentNode?.presetData || null
+      presetImageUrl: initialImageUrl, // Added presetImageUrl
+      presetData: activePresetData
     };
 
     setNodes(prev => [...prev, queryNode, responseNode]);
@@ -129,13 +131,12 @@ const AIBoard = () => {
       const text = await generateResponse(activeText, parentContent);
       setNodes(prev => prev.map(n => n.id === responseId ? { ...n, content: text, isLoading: false } : n));
     } catch (error) {
-      setNodes(prev => prev.map(n => n.id === responseId ? { ...n, content: "⚠️ AI Error: " + (error.message || "Unknown error"), isLoading: false } : n));
+      setNodes(prev => prev.map(n => n.id === responseId ? { ...n, error: error.message || "Unknown error", isLoading: false } : n));
     }
   };
 
   const onShowSuggestions = async (node) => {
     setActiveSuggestionsNode(node);
-    // getSuggestions will now check if node.presetSuggestions exists
     await getSuggestions(node);
   };
 
@@ -153,7 +154,10 @@ const AIBoard = () => {
   };
 
   return (
-    <div className={`relative w-full h-screen overflow-hidden transition-colors duration-500 ${isDarkMode ? 'bg-[#0f1115]' : 'bg-[#fdfbf7]'}`}>
+    <div 
+      data-theme={isDarkMode ? 'dark' : 'light'}
+      className={`relative w-full h-screen overflow-hidden transition-colors duration-500 bg-[var(--canvas-bg)]`}
+    >
       <TopNavBar 
         sources={sources}
         showSources={showSources}
@@ -171,53 +175,64 @@ const AIBoard = () => {
         onExport={onExport}
         isDarkMode={isDarkMode}
         toggleDarkMode={() => setIsDarkMode(!isDarkMode)}
+        isCounselingMode={isCounselingMode}
+        setIsCounselingMode={setIsCounselingMode}
       />
 
-      <svg ref={svgRef} className="w-full h-full cursor-grab active:cursor-grabbing bg-transparent">
+      <svg ref={svgRef} className="w-full h-full cursor-grab active:cursor-grabbing bg-transparent canvas-grid">
+        <defs>
+          <filter id="node-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="10" stdDeviation="15" floodOpacity="0.1" />
+          </filter>
+          
+          <linearGradient id="link-grad" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.6" />
+          </linearGradient>
+
+          <marker id="arrowhead-light" viewBox="0 -5 10 10" refX="24" refY="0" orient="auto" markerWidth="6" markerHeight="6">
+            <path d="M 0,-4 L 8,0 L 0,4" fill="#000" opacity="0.6" />
+          </marker>
+          <marker id="arrowhead-dark" viewBox="0 -5 10 10" refX="24" refY="0" orient="auto" markerWidth="6" markerHeight="6">
+            <path d="M 0,-4 L 8,0 L 0,4" fill="#fff" opacity="0.6" />
+          </marker>
+        </defs>
+
         <g ref={containerRef}>
           {links.map((link, i) => (
             <path 
               key={i} 
-              className="link-path"
+              className="link-path transition-all duration-700"
               fill="none" 
-              stroke={isDarkMode ? "rgba(255,255,255,0.15)" : "#1a1a1a"} 
+              stroke={isDarkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'}
               strokeWidth="1.5" 
               markerEnd={`url(#arrowhead-${isDarkMode ? 'dark' : 'light'})`} 
             />
           ))}
 
-          <defs>
-            <marker id="arrowhead-light" viewBox="0 -5 10 10" refX="28" refY="0" orient="auto" markerWidth="6" markerHeight="6">
-              <path d="M 0,-5 L 10,0 L 0,5" fill="#1a1a1a" />
-            </marker>
-            <marker id="arrowhead-dark" viewBox="0 -5 10 10" refX="28" refY="0" orient="auto" markerWidth="6" markerHeight="6">
-              <path d="M 0,-5 L 10,0 L 0,5" fill="rgba(255,255,255,0.4)" />
-            </marker>
-          </defs>
-
           {nodes.map(node => (
             <foreignObject 
               key={node.id} 
               className="node-group"
-              width="400" 
-              height="600"
-              style={{ pointerEvents: 'none', overflow: 'visible' }}
+              width="340" 
+              height="800"
+              style={{ pointerEvents: 'none', overflow: 'visible', willChange: 'transform' }}
             >
-              <div className="relative pointer-events-auto flex flex-col items-center w-full h-full">
+              <div className="relative pointer-events-auto flex flex-col items-center w-full">
                 <NodeCard 
                   node={node} 
                   isDarkMode={isDarkMode}
+                  isCounselingMode={isCounselingMode}
                   onRemove={() => {
                     saveToHistory();
                     setNodes(prev => prev.filter(n => n.id !== node.id));
-                    setLinks(prev => prev.filter(l => (l.source.id || l.source) !== node.id && (l.target.id || l.target) !== node.id));
+                    setLinks(prev => prev.filter(l => {
+                      const sourceId = l.source.id || l.source;
+                      const targetId = l.target.id || l.target;
+                      return sourceId !== node.id && targetId !== node.id;
+                    }));
                   }}
                   onShowSuggestions={() => onShowSuggestions(node)}
-                  onSubmitQuestion={(q) => {
-                    // Check if this question is one of the preset suggestions
-                    const preset = node.presetData?.find(p => p.query === q);
-                    handleGenerate(q, node, preset);
-                  }}
                   onRefresh={() => {
                     const parentLink = links.find(l => (l.target.id || l.target) === node.id);
                     const pNode = parentLink ? nodes.find(n => n.id === (parentLink.source.id || parentLink.source)) : null;
@@ -227,22 +242,23 @@ const AIBoard = () => {
                   isActive={activeSuggestionsNode?.id === node.id}
                 />
                 
-                {/* Embed SuggestionPanel INSIDE the tracked D3 group! */}
-                {activeSuggestionsNode?.id === node.id && (
-                  <div className="absolute left-[566px] top-[15px] z-[200] animate-fade-in pointer-events-auto origin-top-left">
-                    <SuggestionPanel 
-                      node={activeSuggestionsNode} 
-                      onClose={() => setActiveSuggestionsNode(null)} 
-                      onSelect={(s) => {
-                         // Check if the suggestion has preset data
-                         const preset = activeSuggestionsNode.presetData?.find(p => p.query === s);
-                         handleGenerate(s, activeSuggestionsNode, preset);
-                      }} 
-                      suggestions={suggestions} 
-                      isLoading={isSuggesting} 
-                    />
-                  </div>
-                )}
+                <AnimatePresence>
+                  {activeSuggestionsNode?.id === node.id && (
+                    <div className="absolute left-[325px] top-1/2 -translate-y-1/2 z-[200] pointer-events-auto origin-left">
+                      <SuggestionPanel 
+                        node={activeSuggestionsNode} 
+                        isDarkMode={isDarkMode}
+                        onClose={() => setActiveSuggestionsNode(null)} 
+                        onSelect={(s) => {
+                           const preset = activeSuggestionsNode.presetData?.presetData?.find(p => p.query === s) || activeSuggestionsNode.presetData?.find(p => p.query === s);
+                           handleGenerate(s, activeSuggestionsNode, preset);
+                        }} 
+                        suggestions={suggestions} 
+                        isLoading={isSuggesting} 
+                      />
+                    </div>
+                  )}
+                </AnimatePresence>
               </div>
             </foreignObject>
           ))}
@@ -264,20 +280,15 @@ const AIBoard = () => {
           setQuery={setQuery}
           onGenerate={handleGenerate}
           onSelectTopic={(topic) => {
-            setSources(prev => [...prev, ...topic.sources]);
-            // Pass the initial query as a preset if it exists, or just pass the suggestions
-            handleGenerate(topic.initialQuery, null, {
-                suggestions: topic.suggestedQueries,
-                presetData: topic.presetData // Link the deeper data
-            });
+            if (topic.sources) setSources(prev => [...prev, ...topic.sources]);
+            handleGenerate(topic.initialQuery, null, topic.presetData);
           }}
           onFileUpload={() => fileInputRef.current?.click()}
           isLoading={isLoading}
-          recentBoards={nodes.length > 0 ? [{ id: 'current', title: nodes[0].name || "Untitled Board" }] : []}
+          recentBoards={nodes.length > 0 ? [{ id: 'current', title: nodes[0].name || "Active Board" }] : []}
           recentConversations={nodes.filter(n => n.type === 'query').map(n => ({ title: n.name }))}
         />
       )}
-
 
       <ToolPalette 
         fileInputRef={fileInputRef} 

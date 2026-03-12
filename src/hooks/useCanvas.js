@@ -13,10 +13,9 @@ export const useCanvas = (nodes, links) => {
     const height = window.innerHeight;
 
     simulationRef.current = d3.forceSimulation()
-      .force("link", d3.forceLink().id(d => d.id).distance(450))
-      .force("charge", d3.forceManyBody().strength(-2000))
-      .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(250));
+      .force("link", d3.forceLink().id(d => d.id).distance(150))
+      .force("charge", d3.forceManyBody().strength(-800))
+      .force("collision", d3.forceCollide().radius(160));
 
     const svg = d3.select(svgRef.current);
     const container = d3.select(containerRef.current);
@@ -33,10 +32,9 @@ export const useCanvas = (nodes, links) => {
     svg.call(zoom.transform, d3.zoomIdentity);
 
     simulationRef.current.on("tick", () => {
-      // Direct DOM update instead of React state for performance
       d3.selectAll(".node-group")
         .data(simulationRef.current.nodes())
-        .attr("transform", d => `translate(${d.x - 200}, ${d.y - 150})`);
+        .attr("transform", d => `translate(${d.x - 170}, ${d.y - 100})`); 
 
       d3.selectAll(".link-path")
         .data(simulationRef.current.force("link").links())
@@ -45,8 +43,7 @@ export const useCanvas = (nodes, links) => {
           const tgt = d.target;
           if(!src || !tgt || src.x===undefined || tgt.x===undefined) return "";
           const dx = tgt.x - src.x;
-          // Curved bezier line
-          return `M${src.x},${src.y} C${src.x + dx/2},${src.y} ${tgt.x - dx/2},${tgt.y} ${tgt.x},${tgt.y}`;
+          return `M${src.x},${src.y} C${src.x + dx/2.5},${src.y} ${tgt.x - dx/2.5},${tgt.y} ${tgt.x},${tgt.y}`;
         });
     });
 
@@ -56,7 +53,7 @@ export const useCanvas = (nodes, links) => {
     if (!simulationRef.current) return;
     const simulation = simulationRef.current;
     
-    // Preserve existing D3 simulation state so dragged nodes don't snap back to stale React state coords
+    // Preserve existing D3 simulation state
     const currentNodes = simulation.nodes();
     const newNodes = nodes.map(n => {
       const existing = currentNodes.find(en => en.id === n.id);
@@ -85,6 +82,7 @@ export const useCanvas = (nodes, links) => {
 
     // Re-attach drag to new nodes
     const drag = d3.drag()
+      .filter((event) => !event.target.closest('button'))
       .on("start", (event, d) => {
         if (!event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;

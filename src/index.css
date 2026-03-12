@@ -1,11 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
-  --canvas-bg: #ffffff;
-  --grid-line: #f0f0f0;
-  --accent-purple: #7c3aed;
-  --text-primary: #1a1a1b;
+  --canvas-bg: #f8f9fa;
+  --grid-dot: rgba(0, 0, 0, 0.05);
+  --accent-primary: #7c3aed;
+  --text-main: #0a0a0b;
+}
+
+[data-theme='dark'] {
+  --canvas-bg: #0d0e12;
+  --grid-dot: rgba(255, 255, 255, 0.03);
+  --text-main: #f3f4f6;
 }
 
 * {
@@ -15,47 +21,50 @@
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  color: var(--text-primary);
+  font-family: 'Outfit', -apple-system, system-ui, sans-serif;
+  color: var(--text-main);
   background-color: var(--canvas-bg);
   overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-}
-
-#root {
-  width: 100%;
-  height: 100%;
+  letter-spacing: -0.01em;
+  transition: background-color 0.5s ease;
 }
 
 .canvas-grid {
-  background-color: #ffffff;
-  background-image: radial-gradient(#d1d5db 1px, transparent 0px);
-  background-size: 20px 20px;
-  background-position: center;
+  background-image: radial-gradient(var(--grid-dot) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
 }
 
-/* Custom Scrollbar for Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-card {
+  background: rgba(30, 32, 40, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
 .scroll-elegant::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 .scroll-elegant::-webkit-scrollbar-track {
   background: transparent;
 }
 .scroll-elegant::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
-.scroll-elegant::-webkit-scrollbar-thumb:hover {
-  background: #d1d5db;
+.dark .scroll-elegant::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
