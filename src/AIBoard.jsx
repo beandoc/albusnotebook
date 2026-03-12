@@ -27,6 +27,8 @@ const AIBoard = () => {
   const [history, setHistory] = useState([]);
 
   const fileInputRef = useRef(null);
+  const nodeImageInputRef = useRef(null);
+  const [nodeToUploadImage, setNodeToUploadImage] = useState(null);
 
   // Custom Hooks
   const { sources, setSources, showSources, setShowSources, handleFileUpload, removeSource } = useSources();
@@ -144,6 +146,24 @@ const AIBoard = () => {
     setNodes(prev => prev.map(n => n.id === id ? { ...n, content: newContent } : n));
   };
 
+  const onUploadNodeImage = (node) => {
+    setNodeToUploadImage(node);
+    nodeImageInputRef.current?.click();
+  };
+
+  const handleNodeImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file || !nodeToUploadImage) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageData = event.target.result;
+      setNodes(prev => prev.map(n => n.id === nodeToUploadImage.id ? { ...n, imageUrl: imageData } : n));
+      setNodeToUploadImage(null);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const onClearBoard = () => {
     if (window.confirm("Are you sure you want to clear the entire board?")) {
       setNodes([]);
@@ -220,7 +240,7 @@ const AIBoard = () => {
             >
               <div className="relative pointer-events-auto flex flex-col items-center w-full">
                 <NodeCard 
-                  node={node} 
+                  node={{ ...node, onUploadImage: () => onUploadNodeImage(node) }} 
                   isDarkMode={isDarkMode}
                   isCounselingMode={isCounselingMode}
                   onRemove={() => {
@@ -295,6 +315,14 @@ const AIBoard = () => {
         handleFileUpload={(e) => handleFileUpload(e.target.files[0])}
         onResetZoom={() => navigateTo(window.innerWidth / 2, window.innerHeight / 2, 1)}
         onMagicGenerate={() => handleGenerate("Explore a random interesting fact about kidney health")}
+      />
+
+      <input 
+        type="file" 
+        ref={nodeImageInputRef} 
+        style={{ display: 'none' }} 
+        accept="image/*" 
+        onChange={handleNodeImageUpload} 
       />
 
       <Minimap nodes={nodes} transform={transform} onNavigate={navigateTo} />

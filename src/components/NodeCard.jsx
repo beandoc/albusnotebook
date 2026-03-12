@@ -35,13 +35,8 @@ const NodeCard = ({
     setIsEditing(!isEditing);
   };
 
-  const handleGenerateImage = () => {
-    if (!node.presetImageUrl) return;
-    setIsGeneratingImage(true);
-    setTimeout(() => {
-      setIsGeneratingImage(false);
-      setShowImage(true);
-    }, 2000);
+  const handleShowImage = () => {
+    setShowImage(!showImage);
   };
 
   const colors = {
@@ -130,17 +125,10 @@ const NodeCard = ({
           </div>
         )}
 
-        {showImage && node.presetImageUrl && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 200, opacity: 1 }} className="w-full overflow-hidden">
-            <img src={node.presetImageUrl} alt={node.name} className="w-full h-full object-cover" />
+        {(showImage && (node.presetImageUrl || node.imageUrl)) && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 240, opacity: 1 }} className="w-full overflow-hidden border-b border-black/5">
+            <img src={node.imageUrl || node.presetImageUrl} alt={node.name} className="w-full h-full object-cover" />
           </motion.div>
-        )}
-
-        {isGeneratingImage && (
-          <div className="w-full h-[200px] flex flex-col items-center justify-center bg-black/5 animate-pulse">
-            <Sparkles className="text-purple-500 mb-2 animate-bounce" size={24} />
-            <span className="text-[11px] font-bold text-purple-600 uppercase tracking-widest">Generating Visual...</span>
-          </div>
         )}
 
         <div className={`px-6 py-4 flex items-center justify-between ${theme.header} transition-colors duration-500 relative border-b border-black/5`}>
@@ -154,15 +142,27 @@ const NodeCard = ({
             </h3>
           </div>
           <div className="flex items-center gap-1 transition-opacity">
-            {node.presetImageUrl && !showImage && !isGeneratingImage && (
+            {(node.presetImageUrl || node.imageUrl) ? (
               <button 
-                onClick={(e) => { e.stopPropagation(); handleGenerateImage(); }}
+                onClick={(e) => { e.stopPropagation(); handleShowImage(); }}
                 onPointerDown={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}
                 onMouseUp={(e) => e.stopPropagation()}
-                className="p-1.5 hover:bg-black/10 rounded-lg text-gray-700 relative z-[100] cursor-pointer"
+                className={`p-1.5 rounded-lg relative z-[100] cursor-pointer transition-colors ${showImage ? 'bg-purple-500/10 text-purple-600 font-bold' : 'hover:bg-black/10 text-gray-700'}`}
+                title={showImage ? "Hide Image" : "Show Image"}
               >
-                <Image size={14} />
+                <Image size={14} className={showImage ? 'animate-pulse' : ''} />
+              </button>
+            ) : (
+              <button 
+                onClick={(e) => { e.stopPropagation(); node.onUploadImage && node.onUploadImage(); }}
+                onPointerDown={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
+                className="p-1.5 hover:bg-black/10 rounded-lg text-gray-400 hover:text-gray-700 relative z-[100] cursor-pointer transition-colors"
+                title="Upload Image to Card"
+              >
+                <Plus size={14} />
               </button>
             )}
             <button 

@@ -94,7 +94,7 @@ const TopNavBar = ({
 
       <div className="flex gap-4 items-center">
         <div className={`flex items-center gap-1 cursor-pointer transition-colors text-[13px] font-bold ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-black'}`}>
-          <span>G2.5 Flash</span> <ChevronDown size={14} className="opacity-40" />
+          <span>G1.5 Flash</span> <ChevronDown size={14} className="opacity-40" />
         </div>
         
         <div className={`h-6 w-[1px] ${isDarkMode ? 'bg-white/10' : 'bg-gray-200'}`}></div>

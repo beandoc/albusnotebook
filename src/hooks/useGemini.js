@@ -40,7 +40,8 @@ Be concise, accurate, and professional.`;
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch from API proxy");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to fetch from API proxy");
       }
 
       const data = await response.json();
@@ -73,7 +74,10 @@ Be concise, accurate, and professional.`;
         body: JSON.stringify({ prompt, type: 'suggestions' })
       });
 
-      if (!response.ok) throw new Error("Proxy failed");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Proxy failed");
+      }
 
       const data = await response.json();
       const text = data.text;
