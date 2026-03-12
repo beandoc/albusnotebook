@@ -60,7 +60,7 @@ export const useCanvas = (nodes, links) => {
       if (existing) {
         Object.assign(n, {
           x: existing.x, y: existing.y, vx: existing.vx, vy: existing.vy,
-          fx: existing.fx || n.fx, fy: existing.fy || n.y
+          fx: existing.fx || n.fx, fy: existing.fy || n.fy
         });
       }
       return n;

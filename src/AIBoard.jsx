@@ -210,25 +210,40 @@ const AIBoard = () => {
             <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.6" />
           </linearGradient>
 
-          <marker id="arrowhead-light" viewBox="0 -5 10 10" refX="24" refY="0" orient="auto" markerWidth="6" markerHeight="6">
+          {/* Response Node Markers */}
+          <marker id="arrowhead-light-response" viewBox="0 -5 10 10" refX="175" refY="0" orient="auto" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse">
             <path d="M 0,-4 L 8,0 L 0,4" fill="#000" opacity="0.6" />
           </marker>
-          <marker id="arrowhead-dark" viewBox="0 -5 10 10" refX="24" refY="0" orient="auto" markerWidth="6" markerHeight="6">
+          <marker id="arrowhead-dark-response" viewBox="0 -5 10 10" refX="175" refY="0" orient="auto" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse">
+            <path d="M 0,-4 L 8,0 L 0,4" fill="#fff" opacity="0.6" />
+          </marker>
+
+          {/* Query Node Markers */}
+          <marker id="arrowhead-light-query" viewBox="0 -5 10 10" refX="50" refY="0" orient="auto" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse">
+            <path d="M 0,-4 L 8,0 L 0,4" fill="#000" opacity="0.6" />
+          </marker>
+          <marker id="arrowhead-dark-query" viewBox="0 -5 10 10" refX="50" refY="0" orient="auto" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse">
             <path d="M 0,-4 L 8,0 L 0,4" fill="#fff" opacity="0.6" />
           </marker>
         </defs>
 
         <g ref={containerRef}>
-          {links.map((link, i) => (
-            <path 
-              key={i} 
-              className="link-path transition-all duration-700"
-              fill="none" 
-              stroke={isDarkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'}
-              strokeWidth="1.5" 
-              markerEnd={`url(#arrowhead-${isDarkMode ? 'dark' : 'light'})`} 
-            />
-          ))}
+          {links.map((link, i) => {
+            const targetId = link.target.id || link.target;
+            const targetNode = nodes.find(n => n.id === targetId);
+            const markerType = targetNode?.type === 'query' ? 'query' : 'response';
+            
+            return (
+              <path 
+                key={i} 
+                className="link-path transition-all duration-700"
+                fill="none" 
+                stroke={isDarkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'}
+                strokeWidth="1.5" 
+                markerEnd={`url(#arrowhead-${isDarkMode ? 'dark' : 'light'}-${markerType})`} 
+              />
+            );
+          })}
 
           {nodes.map(node => (
             <foreignObject 
